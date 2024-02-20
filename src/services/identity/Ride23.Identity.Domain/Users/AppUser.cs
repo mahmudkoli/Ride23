@@ -1,0 +1,4 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Ride23.Identity.Domain.Users;
+public class AppUser : IdentityUser { }

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
+    <ProjectReference Include="..\Ride23.Customer.Application\Ride23.Customer.Application.csproj" />
+    <ProjectReference Include="..\Ride23.Customer.Domain\Ride23.Customer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
