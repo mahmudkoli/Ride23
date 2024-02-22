@@ -2,17 +2,18 @@ using Confluent.Kafka;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Ride23.Framework.Core.Events;
 using Ride23.Framework.Core.Messaging;
 
 namespace Ride23.Framework.Infrastructure.Messaging.Consumer;
 
-public class BackgroundKafkaConsumer<TK, TV> : BackgroundService
+public class BackgroundKafkaConsumer<TEvent> : BackgroundService where TEvent : IEvent
 {
-    private readonly KafkaConsumerConfig<TK, TV> _config;
-    private IKafkaMessageHandler<TK, TV> _handler;
+    private readonly KafkaConsumerConfig _config;
+    private IKafkaMessageHandler<TEvent> _handler;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public BackgroundKafkaConsumer(IOptions<KafkaConsumerConfig<TK, TV>> config,
+    public BackgroundKafkaConsumer(IOptions<KafkaConsumerConfig> config,
         IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
@@ -24,11 +25,11 @@ public class BackgroundKafkaConsumer<TK, TV> : BackgroundService
         await Task.Yield();
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            _handler = scope.ServiceProvider.GetRequiredService<IKafkaMessageHandler<TK, TV>>();
+            _handler = scope.ServiceProvider.GetRequiredService<IKafkaMessageHandler<TEvent>>();
 
-            var builder = new ConsumerBuilder<TK, TV>(_config).SetValueDeserializer(new KafkaDeserializer<TV>());
+            var builder = new ConsumerBuilder<string, TEvent>(_config).SetValueDeserializer(new KafkaDeserializer<TEvent>());
 
-            using (IConsumer<TK, TV> consumer = builder.Build())
+            using (IConsumer<string, TEvent> consumer = builder.Build())
             {
                 consumer.Subscribe(_config.Topic);
 

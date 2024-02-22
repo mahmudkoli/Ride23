@@ -17,7 +17,8 @@ public class EventPublisher : IEventPublisher
 
     public Task PublishAsync<TEvent>(TEvent @event, CancellationToken token = default) where TEvent : IEvent
     {
-        _logger.LogInformation("Publishing Event : {event}", @event.GetType().Name);
+        _logger.LogInformation("Publishing Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
+            @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
         return _publisher.Publish(CreateEventNotification(@event));
     }
 

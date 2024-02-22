@@ -1,6 +1,8 @@
+using Ride23.Framework.Core.Events;
+
 namespace Ride23.Framework.Core.Messaging;
 
-public interface IKafkaMessagePublisher<Tk, Tv>
+public interface IKafkaMessagePublisher<TEvent> where TEvent : IEvent
 {
-    Task PublishAsync(Tk key, Tv message);
+    Task PublishAsync(string key, TEvent @event, CancellationToken cancellationToken = default);
 }

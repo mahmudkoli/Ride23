@@ -7,12 +7,11 @@ namespace Ride23.Customer.Application.Consumers;
 public class CustomerCreatedDomainEventHandler : EventNotificationHandler<CustomerCreatedDomainEvent>
 {
     private readonly ILogger<CustomerCreatedDomainEventHandler> _logger;
-    private readonly IKafkaMessagePublisher<string, CustomerCreatedIntegrationEvent> _messagePublisher;
+    private readonly IKafkaMessagePublisher<CustomerCreatedIntegrationEvent> _messagePublisher;
 
     public CustomerCreatedDomainEventHandler(
-        ILogger<CustomerCreatedDomainEventHandler> logger
-        , IKafkaMessagePublisher<string, CustomerCreatedIntegrationEvent> messagePublisher
-        )
+        ILogger<CustomerCreatedDomainEventHandler> logger, 
+        IKafkaMessagePublisher<CustomerCreatedIntegrationEvent> messagePublisher)
     {
         _logger = logger;
         _messagePublisher = messagePublisher;
@@ -20,8 +19,9 @@ public class CustomerCreatedDomainEventHandler : EventNotificationHandler<Custom
 
     public override Task Handle(CustomerCreatedDomainEvent @event, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("{event} Created On {CreationDate}", @event.GetType().Name, @event.CreationDate);
-        _messagePublisher.PublishAsync(@event.Id.ToString(), new CustomerCreatedIntegrationEvent(@event.IdentityGuid, @event.Id, @event.CustomerName));
+        _logger.LogInformation("Handling Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
+            @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
+        _messagePublisher.PublishAsync(@event.CustomerId.ToString(), new CustomerCreatedIntegrationEvent(@event.IdentityGuid, @event.CustomerId, @event.CustomerName), cancellationToken);
         return Task.CompletedTask;
     }
 }

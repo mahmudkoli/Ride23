@@ -2,7 +2,7 @@ using Confluent.Kafka;
 
 namespace Ride23.Framework.Infrastructure.Messaging.Consumer;
 
-public class KafkaConsumerConfig<Tk, Tv> : ConsumerConfig
+public class KafkaConsumerConfig : ConsumerConfig
 {
     public string Topic { get; set; }
 

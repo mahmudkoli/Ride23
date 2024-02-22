@@ -1,22 +1,25 @@
 using Confluent.Kafka;
 using Microsoft.Extensions.Options;
+using Ride23.Framework.Core.Events;
 
 namespace Ride23.Framework.Infrastructure.Messaging.Producer;
 
-public class KafkaProducer<Tk, Tv> : IDisposable
+public class KafkaProducer<TEvent> : IDisposable where TEvent : IEvent
 {
-    private readonly IProducer<Tk, Tv> _producer;
+    private readonly IProducer<string, TEvent> _producer;
     private readonly string _topic;
 
-    public KafkaProducer(IOptions<KafkaProducerConfig<Tk, Tv>> topicOptions, IProducer<Tk, Tv> producer)
+    public KafkaProducer(
+        IOptions<KafkaProducerConfig> topicOptions, 
+        IProducer<string, TEvent> producer)
     {
         _topic = topicOptions.Value.Topic;
         _producer = producer;
     }
 
-    public async Task ProduceAsync(Tk key, Tv value)
+    public async Task ProduceAsync(string key, TEvent value, CancellationToken cancellationToken = default)
     {
-        await _producer.ProduceAsync(_topic, new Message<Tk, Tv> { Key = key, Value = value });
+        await _producer.ProduceAsync(_topic, new Message<string, TEvent> { Key = key, Value = value }, cancellationToken);
     }
 
     public void Dispose()

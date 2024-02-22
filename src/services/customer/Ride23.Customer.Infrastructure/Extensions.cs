@@ -32,13 +32,13 @@ public static class Extensions
 
         builder.Services.AddKafkaMessageBus();
 
-        builder.Services.AddKafkaProducer<string, CustomerCreatedIntegrationEvent>(p =>
+        builder.Services.AddKafkaProducer<CustomerCreatedIntegrationEvent>(p =>
         {
             p.Topic = "customers";
             p.BootstrapServers = kafkaOptions.BootstrapServers;
         });
 
-        builder.Services.AddKafkaConsumer<string, CustomerCreatedIntegrationEvent, CustomerCreatedIntegrationEventHandler>(p =>
+        builder.Services.AddKafkaConsumer<CustomerCreatedIntegrationEvent, CustomerCreatedIntegrationEventHandler>(p =>
         {
             p.Topic = "customers";
             p.GroupId = "customers_group";

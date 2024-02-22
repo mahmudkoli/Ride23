@@ -3,7 +3,7 @@ using Ride23.Customer.Domain.Customers.Events;
 using Ride23.Framework.Core.Messaging;
 
 namespace Ride23.Customer.Application.Consumers;
-public class CustomerCreatedIntegrationEventHandler : IKafkaMessageHandler<string, CustomerCreatedIntegrationEvent>
+public class CustomerCreatedIntegrationEventHandler : IKafkaMessageHandler<CustomerCreatedIntegrationEvent>
 {
     private readonly ILogger<CustomerCreatedIntegrationEventHandler> _logger;
 
@@ -12,8 +12,10 @@ public class CustomerCreatedIntegrationEventHandler : IKafkaMessageHandler<strin
         _logger = logger;
     }
 
-    public async Task HandleAsync(string key, CustomerCreatedIntegrationEvent value)
+    public Task HandleAsync(string key, CustomerCreatedIntegrationEvent @event)
     {
-        Console.WriteLine($"Customer Id: {value.CustomerId} Customer Name: {value.CustomerName}");
+        _logger.LogInformation("Handling Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
+            @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
+        return Task.CompletedTask;
     }
 }
