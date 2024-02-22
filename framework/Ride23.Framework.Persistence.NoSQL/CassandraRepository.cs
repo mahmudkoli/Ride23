@@ -164,10 +164,5 @@ namespace Ride23.Framework.Persistence.NoSQL
             var columnName = memberExpression.Member.Name.ToLower();
             return $"SELECT * FROM {typeof(TDocument).Name.ToLower()} WHERE {columnName} = ?";
         }
-
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

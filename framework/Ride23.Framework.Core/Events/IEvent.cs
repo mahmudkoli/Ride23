@@ -1,7 +1,5 @@
-﻿using MediatR;
-
-namespace Ride23.Framework.Core.Events;
-public interface IEvent : INotification
+﻿namespace Ride23.Framework.Core.Events;
+public interface IEvent
 {
     DefaultIdType Id { get; }
     DateTime CreationDate { get; }

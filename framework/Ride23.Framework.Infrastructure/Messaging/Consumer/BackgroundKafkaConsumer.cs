@@ -9,7 +9,7 @@ namespace Ride23.Framework.Infrastructure.Messaging.Consumer;
 public class BackgroundKafkaConsumer<TK, TV> : BackgroundService
 {
     private readonly KafkaConsumerConfig<TK, TV> _config;
-    private IKafkaHandler<TK, TV> _handler;
+    private IKafkaMessageHandler<TK, TV> _handler;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public BackgroundKafkaConsumer(IOptions<KafkaConsumerConfig<TK, TV>> config,
@@ -24,7 +24,7 @@ public class BackgroundKafkaConsumer<TK, TV> : BackgroundService
         await Task.Yield();
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            _handler = scope.ServiceProvider.GetRequiredService<IKafkaHandler<TK, TV>>();
+            _handler = scope.ServiceProvider.GetRequiredService<IKafkaMessageHandler<TK, TV>>();
 
             var builder = new ConsumerBuilder<TK, TV>(_config).SetValueDeserializer(new KafkaDeserializer<TV>());
 

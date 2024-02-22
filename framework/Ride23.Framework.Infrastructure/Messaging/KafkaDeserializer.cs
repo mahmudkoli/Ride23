@@ -1,5 +1,9 @@
 using Confluent.Kafka;
+using MassTransit;
+using MediatR;
 using Newtonsoft.Json;
+using Ride23.Framework.Core.Events;
+using System.Reflection;
 using System.Text;
 
 namespace Ride23.Framework.Infrastructure.Messaging;

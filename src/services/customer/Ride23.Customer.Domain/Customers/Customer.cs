@@ -1,4 +1,5 @@
-﻿using Ride23.Framework.Core.Domain;
+﻿using Ride23.Customer.Domain.Customers.Events;
+using Ride23.Framework.Core.Domain;
 
 namespace Ride23.Customer.Domain.Customers
 {
@@ -26,7 +27,7 @@ namespace Ride23.Customer.Domain.Customers
                 IsActive = true
             };
 
-            var @event = new CustomerCreatedEvent(customer.IdentityGuid, customer.Id, customer.Name);
+            var @event = new CustomerCreatedDomainEvent(customer.IdentityGuid, customer.Id, customer.Name);
             customer.AddDomainEvent(@event);
 
             return customer;

@@ -3,11 +3,11 @@ using Ride23.Framework.Infrastructure.Messaging.Producer;
 
 namespace Ride23.Framework.Infrastructure.Messaging;
 
-public class KafkaMessageBus<Tk, Tv> : IKafkaMessageBus<Tk, Tv>
+public class KafkaMessagePublisher<Tk, Tv> : IKafkaMessagePublisher<Tk, Tv>
 {
     public readonly KafkaProducer<Tk, Tv> _producer;
     
-    public KafkaMessageBus(KafkaProducer<Tk, Tv> producer)
+    public KafkaMessagePublisher(KafkaProducer<Tk, Tv> producer)
     {
         _producer = producer;
     }

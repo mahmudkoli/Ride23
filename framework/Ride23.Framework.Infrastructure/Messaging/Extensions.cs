@@ -10,12 +10,12 @@ namespace Ride23.Framework.Infrastructure.Messaging;
 public static class Extensions
 {
     public static IServiceCollection AddKafkaMessageBus(this IServiceCollection serviceCollection)
-        => serviceCollection.AddSingleton(typeof(IKafkaMessageBus<,>), typeof(KafkaMessageBus<,>));
+        => serviceCollection.AddSingleton(typeof(IKafkaMessagePublisher<,>), typeof(KafkaMessagePublisher<,>));
 
     public static IServiceCollection AddKafkaConsumer<Tk, Tv, THandler>(this IServiceCollection services,
-        Action<KafkaConsumerConfig<Tk, Tv>> configAction) where THandler : class, IKafkaHandler<Tk, Tv>
+        Action<KafkaConsumerConfig<Tk, Tv>> configAction) where THandler : class, IKafkaMessageHandler<Tk, Tv>
     {
-        services.AddScoped<IKafkaHandler<Tk, Tv>, THandler>();
+        services.AddScoped<IKafkaMessageHandler<Tk, Tv>, THandler>();
 
         services.AddHostedService<BackgroundKafkaConsumer<Tk, Tv>>();
 

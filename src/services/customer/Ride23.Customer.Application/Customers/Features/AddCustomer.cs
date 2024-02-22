@@ -1,10 +1,9 @@
-﻿using Ride23.Customer.Application.Customers.Dtos;
-using Cust = Ride23.Customer.Domain.Customers;
-using FluentValidation;
-using Ride23.Framework.Core.Events;
+﻿using FluentValidation;
 using MapsterMapper;
 using MediatR;
-using Ride23.Framework.Core.Messaging;
+using MSFA23.Application.Common.Persistence;
+using Ride23.Customer.Application.Customers.Dtos;
+using Cust = Ride23.Customer.Domain.Customers;
 
 namespace Ride23.Customer.Application.Customers.Features;
 public static class AddCustomer
@@ -30,19 +29,17 @@ public static class AddCustomer
     public sealed class Handler : IRequestHandler<Command, CustomerDto>
     {
         private readonly ICustomerRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        //private readonly IEventPublisher _eventBus;
-        private readonly IKafkaMessageBus<string, CustomerDto> _message;
 
-        public Handler(ICustomerRepository repository, IMapper mapper
-            , IKafkaMessageBus<string, CustomerDto> message
-            //, IEventPublisher eventBus
-            )
+        public Handler(
+            ICustomerRepository repository,
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _mapper = mapper;
-            _message = message;
-            //_eventBus = eventBus;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CustomerDto> Handle(Command request, CancellationToken cancellationToken)
@@ -52,13 +49,9 @@ public static class AddCustomer
                 request.AddCustomerDto.Name);
 
             await _repository.AddAsync(customerToAdd, cancellationToken);
-            await _repository.SaveChangesAsync(cancellationToken);
-            //foreach (var @event in customerToAdd.DomainEvents)
-            //{
-            //    await _eventBus.PublishAsync(@event, token: cancellationToken);
-            //}
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             var data = _mapper.Map<CustomerDto>(customerToAdd);
-            await _message.PublishAsync(data.Id.ToString(), data);
             return data;
         }
     }

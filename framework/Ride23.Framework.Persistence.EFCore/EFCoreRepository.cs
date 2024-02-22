@@ -74,11 +74,6 @@ public class EFCoreRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
         _dbSet.Remove(await FindByIdAsync(id, cancellationToken));
     }
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await _context.SaveChangesAsync(cancellationToken);
-    }
-
     public void Dispose()
     {
         _context?.Dispose();

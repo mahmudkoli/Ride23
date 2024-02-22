@@ -1,6 +1,6 @@
 namespace Ride23.Framework.Core.Messaging;
 
-public interface IKafkaMessageBus<Tk, Tv>
+public interface IKafkaMessagePublisher<Tk, Tv>
 {
     Task PublishAsync(Tk key, Tv message);
 }

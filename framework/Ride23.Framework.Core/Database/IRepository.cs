@@ -6,6 +6,11 @@ public interface IRepository<TDocument, in TId> : IReadRepository<TDocument, TId
 {
 }
 
+public interface IRepositoryWithEvents<TDocument, in TId> : IRepository<TDocument, TId>
+     where TDocument : class
+{
+}
+
 public interface IReadRepository<TDocument, in TId> where TDocument : class
 {
     Task<TDocument?> FindByIdAsync(TId id, CancellationToken cancellationToken = default);
@@ -26,5 +31,4 @@ public interface IWriteRepository<TDocument, in TId> where TDocument : class
     Task DeleteAsync(Expression<Func<TDocument, bool>> predicate, CancellationToken cancellationToken = default);
     Task DeleteAsync(TDocument entity, CancellationToken cancellationToken = default);
     Task DeleteByIdAsync(TId id, CancellationToken cancellationToken = default);
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
