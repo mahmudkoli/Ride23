@@ -19,18 +19,40 @@ public class SeedClientsAndScopes : IHostedService
         _ = await context.Database.EnsureCreatedAsync(cancellationToken);
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
-        if (await manager.FindByClientIdAsync(Constants.Client, cancellationToken) is null)
+        if (await manager.FindByClientIdAsync(Constants.AdminClient, cancellationToken) is null)
         {
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
-                ClientId = Constants.Client,
-                ClientSecret = Constants.ClientSecret,
-                DisplayName = Constants.ClientDisplayName,
+                ClientId = Constants.AdminClient,
+                ClientSecret = Constants.AdminClientSecret,
+                DisplayName = Constants.AdminClientDisplayName,
                 Permissions =
                 {
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.ClientCredentials,
-                    Permissions.ResponseTypes.Token,
+                    Permissions.ResponseTypes.Code,
+                    Permissions.Scopes.Email,
+                    Permissions.Scopes.Profile,
+                    Permissions.Scopes.Roles,
+                    Permissions.Prefixes.Scope + Constants.CustomerReadScope,
+                    Permissions.Prefixes.Scope + Constants.CustomerWriteScope
+                }
+            }, cancellationToken);
+        }
+
+        if (await manager.FindByClientIdAsync(Constants.UserClient, cancellationToken) is null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = Constants.UserClient,
+                ClientSecret = Constants.UserClientSecret,
+                DisplayName = Constants.UserClientDisplayName,
+                Permissions =
+                {
+                    Permissions.Endpoints.Token,
+                    Permissions.GrantTypes.Password,
+                    Permissions.GrantTypes.RefreshToken,
+                    Permissions.ResponseTypes.Code,
                     Permissions.Scopes.Email,
                     Permissions.Scopes.Profile,
                     Permissions.Scopes.Roles,

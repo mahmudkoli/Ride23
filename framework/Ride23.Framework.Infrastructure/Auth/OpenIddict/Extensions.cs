@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using Ride23.Framework.Infrastructure.Options;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using OpenIddict.Validation.AspNetCore;
+using Ride23.Framework.Infrastructure.Options;
+using System.Reflection;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ride23.Framework.Infrastructure.Auth.OpenIddict;
 
@@ -39,15 +38,25 @@ public static class Extensions
         .AddCore(options => options.UseEntityFrameworkCore().UseDbContext<T>())
         .AddServer(options =>
         {
-            options.SetAuthorizationEndpointUris("/connect/authorize")
-                   .SetIntrospectionEndpointUris("/connect/introspect")
-                   .SetUserinfoEndpointUris("connect/userinfo")
+            options.SetIntrospectionEndpointUris("/connect/introspect")
+                   .SetUserinfoEndpointUris("/connect/userinfo")
                    .SetTokenEndpointUris("/connect/token");
-            options.AllowClientCredentialsFlow();
+
+            options.AllowClientCredentialsFlow()
+                   .AllowPasswordFlow()
+                   .AllowRefreshTokenFlow();
+
             options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
+
             options.DisableAccessTokenEncryption();
-            options.AddDevelopmentEncryptionCertificate().AddDevelopmentSigningCertificate();
-            options.UseAspNetCore().EnableTokenEndpointPassthrough().DisableTransportSecurityRequirement();
+
+            options.AddDevelopmentEncryptionCertificate()
+                   .AddDevelopmentSigningCertificate();
+
+            options.UseAspNetCore()
+                   .EnableTokenEndpointPassthrough()
+                   .EnableUserinfoEndpointPassthrough()
+                   .DisableTransportSecurityRequirement();
         })
         .AddValidation(options =>
         {
@@ -58,13 +67,13 @@ public static class Extensions
         builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         builder.Services.AddAuthorization();
 
-        string? connectionString = builder.Configuration.GetConnectionString(connectionName);
-        if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+        string connectionString = builder.Configuration.GetConnectionString(connectionName) ??
+            throw new ArgumentNullException(nameof(connectionName));
 
         builder.Services.AddDbContext<T>(options =>
         {
             options.UseNpgsql(connectionString, m =>
-            { 
+            {
                 m.MigrationsAssembly(dbContextAssembly.FullName);
                 m.MigrationsHistoryTable(HistoryRepository.DefaultTableName, schemaName);
             });
