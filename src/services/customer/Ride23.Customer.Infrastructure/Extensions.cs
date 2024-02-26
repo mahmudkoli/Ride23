@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Ride23.Customer.Application;
-using Ride23.Customer.Application.Consumers;
+using Ride23.Customer.Application.Events;
 using Ride23.Customer.Application.Customers;
 using Ride23.Customer.Domain.Customers.Events;
 using Ride23.Customer.Infrastructure.Persistence;

@@ -2,7 +2,7 @@
 using Ride23.Customer.Domain.Customers.Events;
 using Ride23.Framework.Core.Messaging;
 
-namespace Ride23.Customer.Application.Consumers;
+namespace Ride23.Customer.Application.Events;
 public class CustomerCreatedIntegrationEventHandler : IKafkaMessageHandler<CustomerCreatedIntegrationEvent>
 {
     private readonly ILogger<CustomerCreatedIntegrationEventHandler> _logger;

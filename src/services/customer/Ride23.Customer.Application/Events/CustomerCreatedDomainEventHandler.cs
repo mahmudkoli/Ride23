@@ -3,7 +3,7 @@ using Ride23.Customer.Domain.Customers.Events;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Core.Messaging;
 
-namespace Ride23.Customer.Application.Consumers;
+namespace Ride23.Customer.Application.Events;
 public class CustomerCreatedDomainEventHandler : EventNotificationHandler<CustomerCreatedDomainEvent>
 {
     private readonly ILogger<CustomerCreatedDomainEventHandler> _logger;

@@ -8,7 +8,9 @@ bool enableSwagger = false;
 var policyNames = new List<string>
 {
     "customer:read",
-    "customer:write"
+    "customer:write",
+    "driver:read",
+    "driver:write"
 };
 
 builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);

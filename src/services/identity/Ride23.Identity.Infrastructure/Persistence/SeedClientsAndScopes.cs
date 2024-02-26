@@ -35,7 +35,9 @@ public class SeedClientsAndScopes : IHostedService
                     Permissions.Scopes.Profile,
                     Permissions.Scopes.Roles,
                     Permissions.Prefixes.Scope + Constants.CustomerReadScope,
-                    Permissions.Prefixes.Scope + Constants.CustomerWriteScope
+                    Permissions.Prefixes.Scope + Constants.CustomerWriteScope,
+                    Permissions.Prefixes.Scope + Constants.DriverReadScope,
+                    Permissions.Prefixes.Scope + Constants.DriverWriteScope
                 }
             }, cancellationToken);
         }
@@ -57,7 +59,9 @@ public class SeedClientsAndScopes : IHostedService
                     Permissions.Scopes.Profile,
                     Permissions.Scopes.Roles,
                     Permissions.Prefixes.Scope + Constants.CustomerReadScope,
-                    Permissions.Prefixes.Scope + Constants.CustomerWriteScope
+                    Permissions.Prefixes.Scope + Constants.CustomerWriteScope,
+                    Permissions.Prefixes.Scope + Constants.DriverReadScope,
+                    Permissions.Prefixes.Scope + Constants.DriverWriteScope
                 }
             }, cancellationToken);
         }
@@ -88,6 +92,19 @@ public class SeedClientsAndScopes : IHostedService
             }, cancellationToken);
         }
 
+        if (await manager.FindByClientIdAsync(Constants.DriverResourceServer, cancellationToken) is null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = Constants.DriverResourceServer,
+                ClientSecret = Constants.DriverResourceServerSecret,
+                Permissions =
+                {
+                    Permissions.Endpoints.Introspection
+                }
+            }, cancellationToken);
+        }
+
         var scopesManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
 
         if (await scopesManager.FindByNameAsync(Constants.CustomerWriteScope, cancellationToken) is null)
@@ -111,6 +128,32 @@ public class SeedClientsAndScopes : IHostedService
                 Resources =
                 {
                     Constants.CustomerResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.DriverWriteScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.DriverWriteScope,
+                Resources =
+                {
+                    Constants.DriverResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.DriverReadScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.DriverReadScope,
+                Resources =
+                {
+                    Constants.DriverResourceServer,
                     Constants.GatewayResourceServer
                 }
             }, cancellationToken);

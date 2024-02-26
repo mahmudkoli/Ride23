@@ -14,4 +14,8 @@ public static class Constants
     public const string CustomerWriteScope = "customer:write";
     public const string GatewayResourceServer = "gateway.resource.server";
     public const string GatewayResourceServerSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB343";
+    public const string DriverResourceServer = "driver.resource.server";
+    public const string DriverResourceServerSecret = "846B62a0-DEF9-4215-A99a-86E6B8DAB342";
+    public const string DriverReadScope = "driver:read";
+    public const string DriverWriteScope = "driver:write";
 }
