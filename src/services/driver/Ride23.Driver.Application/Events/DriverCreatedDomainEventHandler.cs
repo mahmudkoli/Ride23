@@ -21,7 +21,7 @@ public class DriverCreatedDomainEventHandler : EventNotificationHandler<DriverCr
     {
         _logger.LogInformation("Handling Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
             @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
-        _messagePublisher.PublishAsync(@event.CustomerId.ToString(), new DriverCreatedIntegrationEvent(@event.IdentityGuid, @event.CustomerId, @event.CustomerName), cancellationToken);
+        _messagePublisher.PublishAsync(@event.DriverId.ToString(), new DriverCreatedIntegrationEvent(@event.IdentityGuid, @event.DriverId, @event.DriverName), cancellationToken);
         return Task.CompletedTask;
     }
 }

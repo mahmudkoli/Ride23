@@ -45,18 +45,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.infrastructure.yml = docker-compose.infrastructure.yml
 		Makefile = Makefile
+		migration.ps1 = migration.ps1
 		tye.yaml = tye.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "driver", "driver", "{C042B7C9-9628-42A8-A365-37E39DDBF929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ride23.Driver.API", "src\services\driver\Ride23.Driver.API\Ride23.Driver.API.csproj", "{9FF15B5D-75B0-4F9B-83FA-4828B651C6ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Driver.API", "src\services\driver\Ride23.Driver.API\Ride23.Driver.API.csproj", "{9FF15B5D-75B0-4F9B-83FA-4828B651C6ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ride23.Driver.Application", "src\services\driver\Ride23.Driver.Application\Ride23.Driver.Application.csproj", "{0C2E4118-D941-45F6-8AE8-C7D72A943C4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Driver.Application", "src\services\driver\Ride23.Driver.Application\Ride23.Driver.Application.csproj", "{0C2E4118-D941-45F6-8AE8-C7D72A943C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ride23.Driver.Domain", "src\services\driver\Ride23.Driver.Domain\Ride23.Driver.Domain.csproj", "{3ADE219C-168A-446F-B37F-1A72595C3A8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Driver.Domain", "src\services\driver\Ride23.Driver.Domain\Ride23.Driver.Domain.csproj", "{3ADE219C-168A-446F-B37F-1A72595C3A8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ride23.Driver.Infrastructure", "src\services\driver\Ride23.Driver.Infrastructure\Ride23.Driver.Infrastructure.csproj", "{DC01D967-D40A-455A-BC61-B5D2233FF198}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Driver.Infrastructure", "src\services\driver\Ride23.Driver.Infrastructure\Ride23.Driver.Infrastructure.csproj", "{DC01D967-D40A-455A-BC61-B5D2233FF198}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "location", "location", "{4832D17E-4951-4801-8867-5FC6FF307A6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ride23.Location.API", "src\services\location\Ride23.Location.API\Ride23.Location.API.csproj", "{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,6 +137,10 @@ Global
 		{DC01D967-D40A-455A-BC61-B5D2233FF198}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC01D967-D40A-455A-BC61-B5D2233FF198}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC01D967-D40A-455A-BC61-B5D2233FF198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +168,8 @@ Global
 		{0C2E4118-D941-45F6-8AE8-C7D72A943C4A} = {C042B7C9-9628-42A8-A365-37E39DDBF929}
 		{3ADE219C-168A-446F-B37F-1A72595C3A8A} = {C042B7C9-9628-42A8-A365-37E39DDBF929}
 		{DC01D967-D40A-455A-BC61-B5D2233FF198} = {C042B7C9-9628-42A8-A365-37E39DDBF929}
+		{4832D17E-4951-4801-8867-5FC6FF307A6C} = {0730EF19-988B-4621-8D99-38E4D9789078}
+		{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338} = {4832D17E-4951-4801-8867-5FC6FF307A6C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0949B069-F30D-400D-A268-663BD7E3DB07}

@@ -5,14 +5,14 @@ namespace Ride23.Driver.Domain.Drivers.Events
     public class DriverCreatedDomainEvent : DomainEvent
     {
         public Guid IdentityGuid { get; }
-        public Guid CustomerId { get; }
-        public string CustomerName { get; }
+        public Guid DriverId { get; }
+        public string DriverName { get; }
 
-        public DriverCreatedDomainEvent(Guid identityGuid, Guid customerId, string customerName)
+        public DriverCreatedDomainEvent(Guid identityGuid, Guid driverId, string driverName)
         {
             IdentityGuid = identityGuid;
-            CustomerId = customerId;
-            CustomerName = customerName;
+            DriverId = driverId;
+            DriverName = driverName;
         }
     }
 }

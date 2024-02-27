@@ -37,7 +37,9 @@ public class SeedClientsAndScopes : IHostedService
                     Permissions.Prefixes.Scope + Constants.CustomerReadScope,
                     Permissions.Prefixes.Scope + Constants.CustomerWriteScope,
                     Permissions.Prefixes.Scope + Constants.DriverReadScope,
-                    Permissions.Prefixes.Scope + Constants.DriverWriteScope
+                    Permissions.Prefixes.Scope + Constants.DriverWriteScope,
+                    Permissions.Prefixes.Scope + Constants.LocationReadScope,
+                    Permissions.Prefixes.Scope + Constants.LocationWriteScope
                 }
             }, cancellationToken);
         }
@@ -61,7 +63,9 @@ public class SeedClientsAndScopes : IHostedService
                     Permissions.Prefixes.Scope + Constants.CustomerReadScope,
                     Permissions.Prefixes.Scope + Constants.CustomerWriteScope,
                     Permissions.Prefixes.Scope + Constants.DriverReadScope,
-                    Permissions.Prefixes.Scope + Constants.DriverWriteScope
+                    Permissions.Prefixes.Scope + Constants.DriverWriteScope,
+                    Permissions.Prefixes.Scope + Constants.LocationReadScope,
+                    Permissions.Prefixes.Scope + Constants.LocationWriteScope
                 }
             }, cancellationToken);
         }
@@ -98,6 +102,19 @@ public class SeedClientsAndScopes : IHostedService
             {
                 ClientId = Constants.DriverResourceServer,
                 ClientSecret = Constants.DriverResourceServerSecret,
+                Permissions =
+                {
+                    Permissions.Endpoints.Introspection
+                }
+            }, cancellationToken);
+        }
+
+        if (await manager.FindByClientIdAsync(Constants.LocationResourceServer, cancellationToken) is null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = Constants.LocationResourceServer,
+                ClientSecret = Constants.LocationResourceServerSecret,
                 Permissions =
                 {
                     Permissions.Endpoints.Introspection
@@ -154,6 +171,32 @@ public class SeedClientsAndScopes : IHostedService
                 Resources =
                 {
                     Constants.DriverResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.LocationWriteScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.LocationWriteScope,
+                Resources =
+                {
+                    Constants.LocationResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.LocationReadScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.LocationReadScope,
+                Resources =
+                {
+                    Constants.LocationResourceServer,
                     Constants.GatewayResourceServer
                 }
             }, cancellationToken);

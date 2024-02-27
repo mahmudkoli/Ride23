@@ -18,4 +18,8 @@ public static class Constants
     public const string DriverResourceServerSecret = "846B62a0-DEF9-4215-A99a-86E6B8DAB342";
     public const string DriverReadScope = "driver:read";
     public const string DriverWriteScope = "driver:write";
+    public const string LocationResourceServer = "location.resource.server";
+    public const string LocationResourceServerSecret = "846B66a0-DEF9-4215-A99a-86E7B8DAB342";
+    public const string LocationReadScope = "location:read";
+    public const string LocationWriteScope = "location:write";
 }

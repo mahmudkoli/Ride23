@@ -38,3 +38,12 @@ services:
       - port: 5004
         name:  non-secure
         protocol: http
+  - name: location
+    project: src/services/location/Ride23.Location.API/Ride23.Location.API.csproj
+    bindings:
+      - port: 7005
+        name:  secure
+        protocol: https
+      - port: 5005
+        name:  non-secure
+        protocol: http

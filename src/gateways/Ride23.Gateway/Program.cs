@@ -10,7 +10,9 @@ var policyNames = new List<string>
     "customer:read",
     "customer:write",
     "driver:read",
-    "driver:write"
+    "driver:write",
+    "location:read",
+    "location:write"
 };
 
 builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);

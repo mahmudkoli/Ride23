@@ -12,6 +12,7 @@ namespace Ride23.Framework.Persistence.NoSQL
         {
             Cluster cluster = Cluster.Builder()
                                      .AddContactPoint(options.Value.ContactPoint)
+                                     .WithPort(options.Value.Port)
                                      .Build();
             Session = cluster.Connect(options.Value.Keyspace);
         }
