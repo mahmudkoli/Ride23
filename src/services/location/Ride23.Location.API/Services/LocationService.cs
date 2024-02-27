@@ -10,22 +10,27 @@ public class LocationService : ILocationService
 {
     private readonly ILocationRepository _locationRepository;
     private readonly ICacheService _cacheService;
+    private readonly ICacheKeyService _cacheKeyService;
     private readonly IMapper _mapper;
 
     public LocationService(
         ILocationRepository locationRepository,
         ICacheService cacheService,
-        IMapper mapper)
+        IMapper mapper,
+        ICacheKeyService cacheKeyService)
     {
         _locationRepository = locationRepository;
         _cacheService = cacheService;
         _mapper = mapper;
+        _cacheKeyService = cacheKeyService;
     }
 
     public async Task<LocationDto> UpdateLocationAsync(Guid identityGuid, AddLocationDto locationDto)
     {
         var locationToAdd = loc.Location.Create(identityGuid, locationDto.Latitude, locationDto.Longitude);
-        await _cacheService.SetAsync($"location-{identityGuid}", new { locationToAdd.Latitude, locationToAdd.Longitude });
+        await _cacheService.SetAsync(
+            _cacheKeyService.GetCacheKey<loc.Location>(identityGuid), 
+            new { locationToAdd.Latitude, locationToAdd.Longitude });
         await _locationRepository.AddAsync(locationToAdd);
         var data = _mapper.Map<LocationDto>(locationToAdd);
         return data;

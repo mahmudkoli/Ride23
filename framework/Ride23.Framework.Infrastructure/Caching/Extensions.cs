@@ -36,6 +36,8 @@ public static class Extensions
             services.AddTransient<ICacheService, InMemoryCacheService>();
         }
 
+        services.AddTransient<ICacheKeyService, CacheKeyService>();
+
         return services;
     }
 }
