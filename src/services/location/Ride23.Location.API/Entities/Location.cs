@@ -2,7 +2,7 @@
 using Ride23.Location.API.Events;
 
 namespace Ride23.Location.API.Entities;
-public class Location : BaseEntity
+public class Location : OnlyCreatableEntity
 {
     public Guid IdentityGuid { get; private set; }
     public double Latitude { get; private set; }
