@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Ride23.Driver.Domain.Drivers.Events;
+using Ride23.Event.Driver;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Core.Messaging;
 

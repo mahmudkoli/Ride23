@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Ride23.Event.Location;
 using Ride23.Framework.Core.Messaging;
 
 namespace Ride23.Location.API.Events;

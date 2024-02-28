@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using Ride23.Event.Driver;
+﻿using Ride23.Event.Driver;
 using Ride23.Framework.Core.Messaging;
 
-namespace Ride23.Driver.Application.Events;
+namespace Ride23.Location.API.Events;
 public class DriverCreatedIntegrationEventHandler : IKafkaMessageHandler<DriverCreatedIntegrationEvent>
 {
     private readonly ILogger<DriverCreatedIntegrationEventHandler> _logger;

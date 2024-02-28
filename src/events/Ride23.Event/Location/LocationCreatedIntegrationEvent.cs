@@ -1,6 +1,6 @@
 ﻿using Ride23.Framework.Core.Events;
 
-namespace Ride23.Location.API.Events;
+namespace Ride23.Event.Location;
 public class LocationCreatedIntegrationEvent : IntegrationEvent
 {
     public string IdentityId { get; }

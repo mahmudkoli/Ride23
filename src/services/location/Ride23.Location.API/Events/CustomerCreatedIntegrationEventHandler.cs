@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using Ride23.Event.Customer;
+﻿using Ride23.Event.Customer;
 using Ride23.Framework.Core.Messaging;
 
-namespace Ride23.Customer.Application.Events;
+namespace Ride23.Location.API.Events;
 public class CustomerCreatedIntegrationEventHandler : IKafkaMessageHandler<CustomerCreatedIntegrationEvent>
 {
     private readonly ILogger<CustomerCreatedIntegrationEventHandler> _logger;

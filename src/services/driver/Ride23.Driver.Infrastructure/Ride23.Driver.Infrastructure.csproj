@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Infrastructure\Ride23.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
+    <ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
     <ProjectReference Include="..\Ride23.Driver.Application\Ride23.Driver.Application.csproj" />
   </ItemGroup>
 

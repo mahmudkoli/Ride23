@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Ride23.Customer.Application;
-using Ride23.Customer.Application.Events;
 using Ride23.Customer.Application.Customers;
-using Ride23.Customer.Domain.Customers.Events;
+using Ride23.Customer.Application.Events;
 using Ride23.Customer.Infrastructure.Persistence;
 using Ride23.Customer.Infrastructure.Repositories;
+using Ride23.Event.Customer;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Infrastructure;
 using Ride23.Framework.Infrastructure.Auth.OpenId;

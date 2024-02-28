@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Ride23.Customer.Domain.Customers.Events;
+using Ride23.Event.Customer;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Core.Messaging;
 
