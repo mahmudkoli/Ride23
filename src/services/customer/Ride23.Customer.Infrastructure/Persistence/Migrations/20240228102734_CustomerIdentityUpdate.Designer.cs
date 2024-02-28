@@ -2,28 +2,31 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Ride23.Driver.Infrastructure.Persistence;
+using Ride23.Customer.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Ride23.Driver.Infrastructure.Persistence.Migrations
+namespace Ride23.customer.Infrastructure.Persistence.migrations
 {
-    [DbContext(typeof(DriverDbContext))]
-    partial class DriverDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CustomerDbContext))]
+    [Migration("20240228102734_CustomerIdentityUpdate")]
+    partial class CustomerIdentityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Driver")
+                .HasDefaultSchema("Customer")
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Ride23.Driver.Domain.Drivers.Driver", b =>
+            modelBuilder.Entity("Ride23.Customer.Domain.Customers.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +60,7 @@ namespace Ride23.Driver.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Drivers", "Driver");
+                    b.ToTable("Customers", "Customer");
                 });
 #pragma warning restore 612, 618
         }

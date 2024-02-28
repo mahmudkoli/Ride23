@@ -170,7 +170,8 @@ namespace Ride23.Framework.Persistence.NoSQL
         private string BuildBinaryExpression(BinaryExpression expression, string op)
         {
             var leftOperand = ((MemberExpression)expression.Left).Member.Name.ToLower();
-            var rightOperand = GetConstantValue(expression.Right);
+            var rightOperand = GetConstantValue(expression.Right); 
+            if (rightOperand is string) rightOperand = $"'{rightOperand}'";
             return $"{leftOperand} {op} {rightOperand}";
         }
 

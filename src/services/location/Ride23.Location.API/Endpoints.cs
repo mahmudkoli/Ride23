@@ -9,7 +9,7 @@ public static class Endpoints
     public static void UseEndpoints(this WebApplication app)
     {
         // get locations
-        app.MapGet("/locations/{id:guid}", async (Guid id, ILocationService locationService) =>
+        app.MapGet("/locations/{id}", async (string id, ILocationService locationService) =>
         {
             return await locationService.GetLocationsAsync(id);
         }).RequireAuthorization("location:read");
@@ -17,7 +17,7 @@ public static class Endpoints
         // update locations
         app.MapPost("/locations", async (AddLocationDto request, ILocationService locationService) =>
         {
-            return await locationService.UpdateLocationAsync(Guid.Empty, request);
+            return await locationService.UpdateLocationAsync(request);
         }).RequireAuthorization("location:write");
     }
 }

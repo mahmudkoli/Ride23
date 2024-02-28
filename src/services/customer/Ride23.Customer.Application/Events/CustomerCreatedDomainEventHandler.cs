@@ -21,7 +21,7 @@ public class CustomerCreatedDomainEventHandler : EventNotificationHandler<Custom
     {
         _logger.LogInformation("Handling Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
             @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
-        _messagePublisher.PublishAsync(@event.CustomerId.ToString(), new CustomerCreatedIntegrationEvent(@event.IdentityGuid, @event.CustomerId, @event.CustomerName), cancellationToken);
+        _messagePublisher.PublishAsync(@event.CustomerId.ToString(), new CustomerCreatedIntegrationEvent(@event.IdentityId, @event.CustomerId, @event.CustomerName), cancellationToken);
         return Task.CompletedTask;
     }
 }

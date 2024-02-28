@@ -35,8 +35,9 @@ namespace Ride23.Customer.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("IdentityGuid")
-                        .HasColumnType("uuid");
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");

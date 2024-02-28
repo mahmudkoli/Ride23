@@ -5,7 +5,7 @@ namespace Ride23.Customer.Domain.Customers;
 
 public class Customer : AuditableEntity
 {
-    public Guid IdentityGuid { get; private set; }
+    public string IdentityId { get; private set; } = default!;
     public string Name { get; private set; } = default!;
     public bool IsActive { get; set; } = true;
 
@@ -17,17 +17,17 @@ public class Customer : AuditableEntity
     }
 
     public static Customer Create(
-        Guid identityGuid,
+        string identityId,
         string name)
     {
         Customer customer = new()
         {
-            IdentityGuid = identityGuid,
+            IdentityId = identityId,
             Name = name!,
             IsActive = true
         };
 
-        var @event = new CustomerCreatedDomainEvent(customer.IdentityGuid, customer.Id, customer.Name);
+        var @event = new CustomerCreatedDomainEvent(customer.IdentityId, customer.Id, customer.Name);
         customer.AddDomainEvent(@event);
 
         return customer;

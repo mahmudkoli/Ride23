@@ -42,6 +42,7 @@ public static class Extensions
 
         if (enableSwagger) builder.Services.AddSwaggerExtension(config);
         builder.Services.AddCachingService(config);
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddInternalServices();
     }
 

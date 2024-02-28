@@ -4,13 +4,13 @@ namespace Ride23.Customer.Domain.Customers.Events
 {
     public class CustomerCreatedDomainEvent : DomainEvent
     {
-        public Guid IdentityGuid { get; }
+        public string IdentityId { get; }
         public Guid CustomerId { get; }
         public string CustomerName { get; }
 
-        public CustomerCreatedDomainEvent(Guid identityGuid, Guid customerId, string customerName)
+        public CustomerCreatedDomainEvent(string identityId, Guid customerId, string customerName)
         {
-            IdentityGuid = identityGuid;
+            IdentityId = identityId;
             CustomerId = customerId;
             CustomerName = customerName;
         }

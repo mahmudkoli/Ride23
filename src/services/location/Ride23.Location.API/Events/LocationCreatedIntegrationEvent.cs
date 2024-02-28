@@ -3,13 +3,13 @@
 namespace Ride23.Location.API.Events;
 public class LocationCreatedIntegrationEvent : IntegrationEvent
 {
-    public Guid IdentityGuid { get; }
+    public string IdentityId { get; }
     public double Latitude { get; private set; }
     public double Longitude { get; private set; }
 
-    public LocationCreatedIntegrationEvent(Guid identityGuid, double latitude, double longitude)
+    public LocationCreatedIntegrationEvent(string identityId, double latitude, double longitude)
     {
-        IdentityGuid = identityGuid;
+        IdentityId = identityId;
         Latitude = latitude;
         Latitude = longitude;
     }

@@ -3,13 +3,13 @@
 namespace Ride23.Location.API.Events;
 public class LocationCreatedDomainEvent : DomainEvent
 {
-    public Guid IdentityGuid { get; }
+    public string IdentityId { get; }
     public double Latitude { get; private set; }
     public double Longitude { get; private set; }
 
-    public LocationCreatedDomainEvent(Guid identityGuid, double latitude, double longitude)
+    public LocationCreatedDomainEvent(string identityId, double latitude, double longitude)
     {
-        IdentityGuid = identityGuid;
+        IdentityId = identityId;
         Latitude = latitude;
         Longitude = longitude;
     }

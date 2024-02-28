@@ -20,7 +20,7 @@ public class LocationCreatedDomainEventHandler : EventNotificationHandler<Locati
     {
         _logger.LogInformation("Handling Event : {event} on {DateTime} for Event: {Id} Created On {CreationDate}",
             @event.GetType().Name, DateTime.UtcNow, @event.Id, @event.CreationDate);
-        _messagePublisher.PublishAsync(@event.IdentityGuid.ToString(), new LocationCreatedIntegrationEvent(@event.IdentityGuid, @event.Latitude, @event.Longitude), cancellationToken);
+        _messagePublisher.PublishAsync(@event.IdentityId, new LocationCreatedIntegrationEvent(@event.IdentityId, @event.Latitude, @event.Longitude), cancellationToken);
         return Task.CompletedTask;
     }
 }

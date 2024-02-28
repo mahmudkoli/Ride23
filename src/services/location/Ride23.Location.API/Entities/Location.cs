@@ -4,23 +4,23 @@ using Ride23.Location.API.Events;
 namespace Ride23.Location.API.Entities;
 public class Location : OnlyCreatableEntity
 {
-    public Guid IdentityGuid { get; private set; }
+    public string IdentityId { get; private set; } = default!;
     public double Latitude { get; private set; }
     public double Longitude { get; private set; }
 
     public static Location Create(
-        Guid identityGuid,
+        string identityId,
         double latitude,
         double longitude)
     {
         Location location = new()
         {
-            IdentityGuid = identityGuid,
+            IdentityId = identityId,
             Latitude = latitude,
             Longitude = longitude
         };
 
-        var @event = new LocationCreatedDomainEvent(location.IdentityGuid, location.Latitude, location.Longitude);
+        var @event = new LocationCreatedDomainEvent(location.IdentityId, location.Latitude, location.Longitude);
         location.AddDomainEvent(@event);
 
         return location;
