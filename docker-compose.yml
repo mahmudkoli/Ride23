@@ -31,3 +31,9 @@ services:
     build:
       context: .
       dockerfile: src/services/location/Ride23.Location.API/Dockerfile
+
+  order:
+    image: ${DOCKER_REGISTRY-}ride23-order
+    build:
+      context: .
+      dockerfile: src/services/order/Ride23.Order.API/Dockerfile

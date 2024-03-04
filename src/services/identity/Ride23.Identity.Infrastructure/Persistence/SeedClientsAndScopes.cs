@@ -121,6 +121,19 @@ public class SeedClientsAndScopes : IHostedService
                 }
             }, cancellationToken);
         }
+        
+        if (await manager.FindByClientIdAsync(Constants.OrderResourceServer, cancellationToken) is null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = Constants.OrderResourceServer,
+                ClientSecret = Constants.OrderResourceServerSecret,
+                Permissions =
+                {
+                    Permissions.Endpoints.Introspection
+                }
+            }, cancellationToken);
+        }
 
         var scopesManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
 
@@ -197,6 +210,32 @@ public class SeedClientsAndScopes : IHostedService
                 Resources =
                 {
                     Constants.LocationResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.OrderWriteScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.OrderWriteScope,
+                Resources =
+                {
+                    Constants.OrderResourceServer,
+                    Constants.GatewayResourceServer
+                }
+            }, cancellationToken);
+        }
+
+        if (await scopesManager.FindByNameAsync(Constants.OrderReadScope, cancellationToken) is null)
+        {
+            await scopesManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = Constants.OrderReadScope,
+                Resources =
+                {
+                    Constants.OrderResourceServer,
                     Constants.GatewayResourceServer
                 }
             }, cancellationToken);

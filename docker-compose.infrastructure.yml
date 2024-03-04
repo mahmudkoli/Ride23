@@ -87,6 +87,21 @@ services:
     networks:
       - ride23
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-logs:/var/log/rabbitmq
+    networks:
+      - ride23
+
 volumes:
   postgres-data:
   cassandra-data:
@@ -94,6 +109,8 @@ volumes:
   kafka-data:
   zookeeper-data:
   zookeeper-logs:
+  rabbitmq-data:
+  rabbitmq-logs:
 
 networks:
   ride23:

@@ -114,12 +114,36 @@ services:
     networks:
       - ride23
 
+  order:
+    container_name: order
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - OpenIdOptions__Authority=http://identity:8080/
+      - EFCoreOptions__ConnectionString=Host=postgres;Port=5430;Database=Ride23;Username=postgres;Password=admin;Include Error Detail=true
+      - KafkaOptions__BootstrapServers=kafka:29092
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123456Aa!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Ride23.pfx
+    ports:
+      - 5006:8080
+      - 7006:8081
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - order-data:/app
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - ride23
+
 volumes:
   gateway-data:
   customer-data:
   driver-data:
   identity-data:
   location-data:
+  order-data:
 
 networks:
   ride23:

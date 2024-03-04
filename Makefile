@@ -31,3 +31,4 @@ dotnet-publish:
 	@cd ./src/services/identity/Ride23.Identity.API && dotnet publish --os linux --arch x64 -c Release --self-contained
 	@cd ./src/services/driver/Ride23.Driver.API && dotnet publish --os linux --arch x64 -c Release --self-contained
 	@cd ./src/services/location/Ride23.Location.API && dotnet publish --os linux --arch x64 -c Release --self-contained
+	@cd ./src/services/order/Ride23.Order.API && dotnet publish --os linux --arch x64 -c Release --self-contained

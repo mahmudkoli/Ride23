@@ -22,4 +22,8 @@ public static class Constants
     public const string LocationResourceServerSecret = "846B66a0-DEF9-4215-A99a-86E7B8DAB342";
     public const string LocationReadScope = "location:read";
     public const string LocationWriteScope = "location:write";
+    public const string OrderResourceServer = "order.resource.server";
+    public const string OrderResourceServerSecret = "826B66a0-DEF9-4215-A99a-16E7B8DAB342";
+    public const string OrderReadScope = "order:read";
+    public const string OrderWriteScope = "order:write";
 }
