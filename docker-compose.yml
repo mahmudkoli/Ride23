@@ -37,3 +37,10 @@ services:
     build:
       context: .
       dockerfile: src/services/order/Ride23.Order.API/Dockerfile
+
+  inventory:
+    image: ${DOCKER_REGISTRY-}ride23-inventory
+    build:
+      context: .
+      dockerfile: src/services/inventory/Ride23.Inventory.API/Dockerfile
+

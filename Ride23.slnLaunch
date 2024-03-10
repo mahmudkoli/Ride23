@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Name": "src\\services\\identity\\Ride23.Identity.API\\Ride23.Identity.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\services\\customer\\Ride23.Customer.API\\Ride23.Customer.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\gateways\\Ride23.Gateway\\Ride23.Gateway.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\services\\location\\Ride23.Location.API\\Ride23.Location.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\services\\driver\\Ride23.Driver.API\\Ride23.Driver.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\services\\order\\Ride23.Order.API\\Ride23.Order.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      },
+      {
+        "Name": "src\\services\\inventory\\Ride23.Inventory.API\\Ride23.Inventory.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "API"
+      }
+    ]
+  }
+]

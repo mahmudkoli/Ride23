@@ -26,4 +26,8 @@ public static class Constants
     public const string OrderResourceServerSecret = "826B66a0-DEF9-4215-A99a-16E7B8DAB342";
     public const string OrderReadScope = "order:read";
     public const string OrderWriteScope = "order:write";
+    public const string InventoryResourceServer = "inventory.resource.server";
+    public const string InventoryResourceServerSecret = "826B66a0-DEF9-4215-A99a-16E7B8DAB342";
+    public const string InventoryReadScope = "inventory:read";
+    public const string InventoryWriteScope = "inventory:write";
 }

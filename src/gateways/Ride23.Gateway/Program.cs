@@ -14,7 +14,9 @@ var policyNames = new List<string>
     "location:read",
     "location:write",
     "order:read",
-    "order:write"
+    "order:write",
+    "inventory:read",
+    "inventory:write"
 };
 
 builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);
