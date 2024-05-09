@@ -27,10 +27,6 @@ public class NotificationSagaHandlers :
     public async Task Handle(NotificationSentEvent message)
     {
         _logger.LogInformation("Handling NotificationSentEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle notification sending
-        Data.NotificationSent = true; // Update the NotificationSent flag
-
-        // No need to send the next event since notification sending is completed
+        Data.NotificationSent = true;
     }
 }

@@ -5,7 +5,6 @@ using Ride23.Saga.Order;
 
 namespace Ride23.Order.Application.Sagas;
 
-// Payment Command Handlers
 public class ProcessPaymentCommandHandler : IHandleMessages<ProcessPaymentCommand>
 {
     private readonly IBus _bus;
@@ -19,14 +18,10 @@ public class ProcessPaymentCommandHandler : IHandleMessages<ProcessPaymentComman
 
     public async Task Handle(ProcessPaymentCommand message)
     {
-        // Perform payment processing logic here
-
         // If payment processed successfully
         await _bus.Send(new PaymentProcessedEvent(message.OrderId));
 
         // If payment failed
         // await _bus.Send(new PaymentFailedEvent(message.OrderId));
-
-        await Task.CompletedTask;
     }
 }

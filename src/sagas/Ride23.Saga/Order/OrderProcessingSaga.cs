@@ -26,6 +26,11 @@ public class OrderProcessingSagaData : ISagaData
     public bool RefundFailed { get; set; }
     public bool Success { get; set; }
     public bool Completed { get; set; }
+
+    public bool IsCompleted()
+    {
+        return InventoryReserved && PaymentProcessed;
+    }
 }
 
 public record ReserveInventoryCommand(Guid OrderId) : IInventoryMap;
@@ -50,3 +55,30 @@ public record RefundFailedEvent(Guid OrderId) : IOrderMap;
 public record NotificationSentEvent(Guid OrderId) : IOrderMap;
 public record OrderShippedEvent(Guid OrderId) : IOrderMap;
 public record ShippingFailedEvent(Guid OrderId) : IOrderMap;
+
+public static class SagaRouteMapping
+{
+    private static Dictionary<Type, string> QueueNameMappings = new Dictionary<Type, string>
+    {
+        { typeof(IOrderMap), "order-queue" },
+        { typeof(IInventoryMap), "inventory-queue" }
+    };
+
+    public static Dictionary<Type, string> GetRoutingConfig()
+    {
+        var routingConfig = new Dictionary<Type, string>();
+        foreach (var mapping in QueueNameMappings)
+        {
+            var implementingTypes = typeof(OrderProcessingSagaData).Assembly.GetTypes()
+                .Where(t => mapping.Key.IsAssignableFrom(t) && !t.IsInterface)
+                .ToList();
+
+            foreach (var implementingType in implementingTypes)
+            {
+                routingConfig[implementingType] = mapping.Value;
+            }
+        }
+
+        return routingConfig;
+    }
+}

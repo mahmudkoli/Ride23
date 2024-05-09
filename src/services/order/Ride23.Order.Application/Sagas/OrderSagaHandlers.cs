@@ -34,10 +34,8 @@ public class OrderSagaHandlers :
     {
         _logger.LogInformation("Handling OrderCreatedEvent for OrderId: {OrderId}", message.OrderId);
 
-        // Handle order creation
         if (!IsNew) return;
 
-        // Send the next event
         //await _bus.Send(new OrderProcessingSuccessEvent(message.OrderId));
         await _bus.Send(new ReserveInventoryCommand(message.OrderId));
         await _bus.Send(new ProcessPaymentCommand(message.OrderId));
@@ -48,21 +46,13 @@ public class OrderSagaHandlers :
     public async Task Handle(OrderCancelledEvent message)
     {
         _logger.LogInformation("Handling OrderCancelledEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle order cancellation
-        Data.Cancelled = true; // Update the Cancelled flag
-        //MarkAsComplete(); // Mark the saga as complete for order cancellation
-
-        // No need to send the next event since the saga is completed
+        Data.Cancelled = true;
+        TryComplete();
     }
 
     public async Task Handle(OrderProcessingSuccessEvent message)
     {
         _logger.LogInformation("Handling OrderProcessingSuccessEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle order processing success
-
-        // Send the next event
         await _bus.Send(new OrderProcessingCompleteEvent(message.OrderId));
     }
 
@@ -70,10 +60,12 @@ public class OrderSagaHandlers :
     {
         _logger.LogInformation("Handling OrderProcessingCompleteEvent for OrderId: {OrderId}", message.OrderId);
 
-        // Handle order processing completion
-        Data.Completed = true; // Update the Completed flag
-        MarkAsComplete(); // Mark the saga as complete for order processing completion
+        Data.Completed = true;
+        TryComplete();
+    }
 
-        // No need to send the next event since the saga is completed
+    private void TryComplete()
+    {
+        if (Data.IsCompleted()) MarkAsComplete();
     }
 }

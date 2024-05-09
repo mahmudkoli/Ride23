@@ -18,8 +18,6 @@ public class ReleaseInventoryCommandHandler : IHandleMessages<ReleaseInventoryCo
 
     public async Task Handle(ReleaseInventoryCommand message)
     {
-        // Perform inventory reservation logic here
-
         // If release successful
         await _bus.Send(new InventoryReleasedEvent(message.OrderId));
 

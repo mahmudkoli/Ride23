@@ -1,12 +1,5 @@
-﻿using MassTransit;
-using MassTransit.Courier.Contracts;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Rebus.Config;
-using Rebus.Logging;
-using Rebus.Routing.TypeBased;
 using Ride23.Event.Inventory;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Infrastructure;
@@ -58,70 +51,12 @@ public static class Extensions
         builder.Services.AddEFCoreDbContext<InventoryDbContext>(builder.Configuration, dbContextAssembly);
         builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
 
-        AddSaga(builder, config);
-    }
-
-    private static void AddSaga(WebApplicationBuilder builder, ConfigurationManager config)
-    {
-        var queueNameMappings = new Dictionary<Type, string>
+        builder.Services.AddSagaService<InventorySagaHandlers>(config, SagaRouteMapping.GetRoutingConfig(), async bus =>
         {
-            { typeof(IOrderMap), "order-queue" },
-            { typeof(IInventoryMap), "inventory-queue" }
-        };
-        var routingConfig = new Dictionary<Type, string>();
-        foreach (var mapping in queueNameMappings)
-        {
-            var implementingTypes = typeof(OrderProcessingSagaData).Assembly.GetTypes()
-                .Where(t => mapping.Key.IsAssignableFrom(t) && !t.IsInterface)
-                .ToList();
-
-            foreach (var implementingType in implementingTypes)
-            {
-                routingConfig[implementingType] = mapping.Value;
-            }
-        }
-
-        builder.Services.AddSagaService<InventorySagaHandlers>(config, routingConfig, async bus =>
-        {
-            //await bus.Subscribe<InventoryReservationFailedEvent>();
-            //await bus.Subscribe<InventoryReservedEvent>();
-            //await bus.Subscribe<OrderCancelledEvent>();
+            await bus.Subscribe<InventoryReservationFailedEvent>();
+            await bus.Subscribe<InventoryReservedEvent>();
+            await bus.Subscribe<OrderCancelledEvent>();
         });
-
-        //var sagaOptions = builder.Services.BindValidateReturn<SagaOptions>(builder.Configuration);
-        //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-        //builder.Services.AddRebus(
-        //    config => config
-        //        .Logging(l => l.ColoredConsole(minLevel: LogLevel.Info))
-        //        .Routing(r =>
-        //        {
-        //            var routing = r.TypeBased();
-        //            routing.Map<InventoryReservedEvent>("inventory-queue");
-        //            routing.Map<OrderProcessingSuccessEvent>("order-queue");
-        //        })
-        //        .Transport(t =>
-        //            t.UseRabbitMq(
-        //                sagaOptions.TransportConnString,
-        //                "inventory-queue"))
-        //        .Sagas(s =>
-        //            s.StoreInPostgres(
-        //                sagaOptions.PersistenceConnString,
-        //                dataTableName: "Sagas",
-        //                indexTableName: "SagaIndexes"))
-        //        .Timeouts(t =>
-        //            t.StoreInPostgres(
-        //        sagaOptions.PersistenceConnString,
-        //                tableName: "Timeouts"))
-        //        //,
-        //        //onCreated: async bus =>
-        //        //{
-        //        //    await bus.Subscribe<InventoryReservedEvent>();
-        //        //    //await bus.Subscribe<ReserveInventoryCommand>();
-        //        //}
-        //    );
-
-        //builder.Services.AutoRegisterHandlersFromAssemblyOf<InventorySagaHandlers>();
     }
 
     public static void UseInventoryInfrastructure(this WebApplication app)

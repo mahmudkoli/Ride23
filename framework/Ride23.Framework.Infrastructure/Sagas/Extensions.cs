@@ -5,7 +5,6 @@ using Rebus.Config;
 using Rebus.Logging;
 using Rebus.Routing.TypeBased;
 using Ride23.Framework.Infrastructure.Options;
-using System.Reflection;
 
 namespace Ride23.Framework.Infrastructure.Sagas;
 public static class Extensions
@@ -22,7 +21,6 @@ public static class Extensions
                 .Routing(r =>
                 {
                     var typeBasedRouting = r.TypeBased();
-
                     foreach (var messageType in routingConfig)
                     {
                         typeBasedRouting.Map(messageType.Key, messageType.Value);
@@ -30,7 +28,7 @@ public static class Extensions
                 })
                 .Transport(t =>
                     t.UseRabbitMq(
-                        sagaOptions.TransportConnString, 
+                        sagaOptions.TransportConnString,
                         sagaOptions.QueueName))
                 .Sagas(s =>
                     s.StoreInPostgres(

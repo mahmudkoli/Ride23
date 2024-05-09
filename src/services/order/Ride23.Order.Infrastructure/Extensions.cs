@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Ride23.Order.Application;
-using Ride23.Order.Application.Orders;
-using Ride23.Order.Application.Events;
-using Ride23.Order.Infrastructure.Persistence;
-using Ride23.Order.Infrastructure.Repositories;
 using Ride23.Event.Order;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Infrastructure;
@@ -12,16 +7,15 @@ using Ride23.Framework.Infrastructure.Auth.OpenId;
 using Ride23.Framework.Infrastructure.Events;
 using Ride23.Framework.Infrastructure.Messaging;
 using Ride23.Framework.Infrastructure.Options;
-using Ride23.Framework.Persistence.EFCore;
 using Ride23.Framework.Infrastructure.Sagas;
+using Ride23.Framework.Persistence.EFCore;
+using Ride23.Order.Application;
+using Ride23.Order.Application.Events;
+using Ride23.Order.Application.Orders;
 using Ride23.Order.Application.Sagas;
+using Ride23.Order.Infrastructure.Persistence;
+using Ride23.Order.Infrastructure.Repositories;
 using Ride23.Saga.Order;
-using Rebus.Handlers;
-using Rebus.Config;
-using Rebus.Logging;
-using Rebus.Routing.TypeBased;
-using System.Reflection;
-using Microsoft.Extensions.Configuration;
 
 namespace Ride23.Order.Infrastructure;
 public static class Extensions
@@ -56,82 +50,24 @@ public static class Extensions
 
         builder.Services.AddEFCoreDbContext<OrderDbContext>(builder.Configuration, dbContextAssembly);
         builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-        
-        AddSaga(builder, config);
-    }
 
-    private static void AddSaga(WebApplicationBuilder builder, ConfigurationManager config)
-    {
-        var queueNameMappings = new Dictionary<Type, string>
+        builder.Services.AddSagaService<OrderSagaHandlers>(config, SagaRouteMapping.GetRoutingConfig(), async bus =>
         {
-            { typeof(IOrderMap), "order-queue" },
-            { typeof(IInventoryMap), "inventory-queue" }
-        };
-        var routingConfig = new Dictionary<Type, string>();
-        foreach (var mapping in queueNameMappings)
-        {
-            var implementingTypes = typeof(OrderProcessingSagaData).Assembly.GetTypes()
-                .Where(t => mapping.Key.IsAssignableFrom(t) && !t.IsInterface)
-                .ToList();
+            await bus.Subscribe<OrderCreatedEvent>();
+            await bus.Subscribe<OrderCancelledEvent>();
+            await bus.Subscribe<OrderProcessingSuccessEvent>();
+            await bus.Subscribe<OrderProcessingCompleteEvent>();
 
-            foreach (var implementingType in implementingTypes)
-            {
-                routingConfig[implementingType] = mapping.Value;
-            }
-        }
+            await bus.Subscribe<PaymentProcessedEvent>();
+            await bus.Subscribe<PaymentFailedEvent>();
+            await bus.Subscribe<RefundProcessedEvent>();
+            await bus.Subscribe<RefundFailedEvent>();
 
-        builder.Services.AddSagaService<OrderSagaHandlers>(config, routingConfig, async bus =>
-        {
-            //await bus.Subscribe<OrderCreatedEvent>();
-            //await bus.Subscribe<OrderCancelledEvent>();
-            //await bus.Subscribe<OrderProcessingSuccessEvent>();
-            //await bus.Subscribe<OrderProcessingCompleteEvent>();
+            await bus.Subscribe<NotificationSentEvent>();
 
-            //await bus.Subscribe<PaymentProcessedEvent>();
-            //await bus.Subscribe<PaymentFailedEvent>();
-            //await bus.Subscribe<RefundProcessedEvent>();
-            //await bus.Subscribe<RefundFailedEvent>();
-
-            //await bus.Subscribe<NotificationSentEvent>();
-
-            //await bus.Subscribe<OrderShippedEvent>();
-            //await bus.Subscribe<ShippingFailedEvent>();
+            await bus.Subscribe<OrderShippedEvent>();
+            await bus.Subscribe<ShippingFailedEvent>();
         });
-
-        //var sagaOptions = builder.Services.BindValidateReturn<SagaOptions>(builder.Configuration);
-        //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-        //builder.Services.AddRebus(
-        //    config => config
-        //        .Logging(l => l.ColoredConsole(minLevel: LogLevel.Info))
-        //        .Routing(r =>
-        //            r.TypeBased()
-        //            .Map<OrderCreatedEvent>("order-queue")
-        //            .Map<ReserveInventoryCommand>("inventory-queue")
-        //            .Map<OrderProcessingCompleteEvent>("order-queue"))
-        //        .Transport(t =>
-        //            t.UseRabbitMq(
-        //                sagaOptions.TransportConnString,
-        //                "order-queue"))
-        //        .Sagas(s =>
-        //            s.StoreInPostgres(
-        //                sagaOptions.PersistenceConnString,
-        //                dataTableName: "Sagas",
-        //                indexTableName: "SagaIndexes"))
-        //        .Timeouts(t =>
-        //            t.StoreInPostgres(
-        //        sagaOptions.PersistenceConnString,
-        //                tableName: "Timeouts"))
-        //        //,
-        //        //onCreated: async bus =>
-        //        //{
-        //        //    await bus.Subscribe<OrderCreatedEvent>();
-        //        //    await bus.Subscribe<OrderProcessingSuccessEvent>();
-        //        //    await bus.Subscribe<OrderProcessingCompleteEvent>();
-        //        //}
-        //    );
-
-        //builder.Services.AutoRegisterHandlersFromAssemblyOf<OrderSagaHandlers>();
     }
 
     public static void UseOrderInfrastructure(this WebApplication app)

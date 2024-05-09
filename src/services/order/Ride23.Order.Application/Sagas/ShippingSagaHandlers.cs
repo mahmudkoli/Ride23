@@ -29,22 +29,19 @@ public class ShippingSagaHandlers :
     public async Task Handle(OrderShippedEvent message)
     {
         _logger.LogInformation("Handling OrderShippedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle order shipped
-        Data.Shipped = true; // Update the Shipped flag
-        //MarkAsComplete(); // Mark the saga as complete for order shipping
-
-        // No need to send the next event since the saga is completed
+        Data.Shipped = true;
+        TryComplete();
     }
 
     public async Task Handle(ShippingFailedEvent message)
     {
         _logger.LogInformation("Handling ShippingFailedEvent for OrderId: {OrderId}", message.OrderId);
+        Data.ShippingFailed = true;
+        TryComplete();
+    }
 
-        // Handle shipping failure
-        Data.ShippingFailed = true; // Update the ShippingFailed flag
-        //MarkAsComplete(); // Mark the saga as complete for shipping failure
-
-        // No need to send the next event since the saga is completed
+    private void TryComplete()
+    {
+        if (Data.IsCompleted()) MarkAsComplete();
     }
 }

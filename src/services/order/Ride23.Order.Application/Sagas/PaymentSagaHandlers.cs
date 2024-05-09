@@ -33,42 +33,31 @@ public class PaymentSagaHandlers :
     public async Task Handle(PaymentProcessedEvent message)
     {
         _logger.LogInformation("Handling PaymentProcessedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle payment processed
-        Data.PaymentProcessed = true; // Update the PaymentProcessed flag
-
-        // No need to send the next event since payment processing is completed
+        Data.PaymentProcessed = true;
     }
 
     public async Task Handle(PaymentFailedEvent message)
     {
         _logger.LogInformation("Handling PaymentFailedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle payment failure
-        Data.PaymentFailed = true; // Update the PaymentFailed flag
-        //MarkAsComplete(); // Mark the saga as complete for payment failure
-
-        // No need to send the next event since the saga is completed
+        Data.PaymentFailed = true;
+        TryComplete();
     }
 
     public async Task Handle(RefundProcessedEvent message)
     {
         _logger.LogInformation("Handling RefundProcessedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle refund processed
-        Data.Refunded = true; // Update the Refunded flag
-
-        // No need to send the next event since refund processing is completed
+        Data.Refunded = true;
     }
 
     public async Task Handle(RefundFailedEvent message)
     {
         _logger.LogInformation("Handling RefundFailedEvent for OrderId: {OrderId}", message.OrderId);
+        Data.RefundFailed = true;
+        TryComplete();
+    }
 
-        // Handle refund failure
-        Data.RefundFailed = true; // Update the RefundFailed flag
-        //MarkAsComplete(); // Mark the saga as complete for refund failure
-
-        // No need to send the next event since the saga is completed
+    private void TryComplete()
+    {
+        if (Data.IsCompleted()) MarkAsComplete();
     }
 }

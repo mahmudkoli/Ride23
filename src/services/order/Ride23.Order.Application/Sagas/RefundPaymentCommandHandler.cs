@@ -18,8 +18,6 @@ public class RefundPaymentCommandHandler : IHandleMessages<RefundPaymentCommand>
 
     public async Task Handle(RefundPaymentCommand message)
     {
-        // Perform payment processing logic here
-
         // If refund processed successfully
         await _bus.Send(new RefundProcessedEvent(message.OrderId));
 

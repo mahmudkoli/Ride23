@@ -31,33 +31,26 @@ public class InventorySagaHandlers :
     public async Task Handle(InventoryReservationFailedEvent message)
     {
         _logger.LogInformation("Handling InventoryReservationFailedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle inventory reservation failure
-        Data.InventoryReservationFailed = true; // Update the InventoryReservationFailed flag
-        //MarkAsComplete(); // Mark the saga as complete for inventory reservation failure
-
-        // No need to send the next event since the saga is completed
+        Data.InventoryReservationFailed = true;
+        TryComplete();
     }
 
     public async Task Handle(InventoryReservedEvent message)
     {
         _logger.LogInformation("Handling InventoryReservedEvent for OrderId: {OrderId}", message.OrderId);
-
-        // Handle inventory reservation success
-        Data.InventoryReserved = true; // Update the InventoryReserved flag
-
-        // Send the next event
+        Data.InventoryReserved = true;
         await _bus.Send(new OrderProcessingSuccessEvent(message.OrderId));
     }
 
     public async Task Handle(OrderCancelledEvent message)
     {
         _logger.LogInformation("Handling OrderCancelledEvent for OrderId: {OrderId}", message.OrderId);
+        Data.Cancelled = true;
+        TryComplete();
+    }
 
-        // Handle order cancellation related to inventory
-        Data.Cancelled = true; // Update the Cancelled flag
-        //MarkAsComplete(); // Mark the saga as complete for order cancellation related to inventory
-
-        // No need to send the next event since the saga is completed
+    private void TryComplete()
+    {
+        if (Data.IsCompleted()) MarkAsComplete();
     }
 }

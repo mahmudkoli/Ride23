@@ -5,7 +5,6 @@ using Ride23.Saga.Order;
 
 namespace Ride23.Inventory.Application.Sagas;
 
-// Inventory Command Handlers
 public class ReserveInventoryCommandHandler : IHandleMessages<ReserveInventoryCommand>
 {
     private readonly IBus _bus;
@@ -19,8 +18,6 @@ public class ReserveInventoryCommandHandler : IHandleMessages<ReserveInventoryCo
 
     public async Task Handle(ReserveInventoryCommand message)
     {
-        // Perform inventory reservation logic here
-
         // If reservation successful
         await _bus.Send(new InventoryReservedEvent(message.OrderId));
 

@@ -5,7 +5,6 @@ using Ride23.Saga.Order;
 
 namespace Ride23.Order.Application.Sagas;
 
-// Notification Command Handlers
 public class SendNotificationCommandHandler : IHandleMessages<SendNotificationCommand>
 {
     private readonly IBus _bus;
@@ -19,8 +18,6 @@ public class SendNotificationCommandHandler : IHandleMessages<SendNotificationCo
 
     public async Task Handle(SendNotificationCommand message)
     {
-        // Perform notification sending logic here
-
         // If notification sent successfully
         await _bus.Send(new NotificationSentEvent(message.OrderId));
     }

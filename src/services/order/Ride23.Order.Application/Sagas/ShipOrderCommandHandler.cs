@@ -5,7 +5,6 @@ using Ride23.Saga.Order;
 
 namespace Ride23.Order.Application.Sagas;
 
-// Shipping Command Handlers
 public class ShipOrderCommandHandler : IHandleMessages<ShipOrderCommand>
 {
     private readonly IBus _bus;
@@ -19,8 +18,6 @@ public class ShipOrderCommandHandler : IHandleMessages<ShipOrderCommand>
 
     public async Task Handle(ShipOrderCommand message)
     {
-        // Perform order shipping logic here
-
         // If order shipped successfully
         await _bus.Send(new OrderShippedEvent(message.OrderId));
 
