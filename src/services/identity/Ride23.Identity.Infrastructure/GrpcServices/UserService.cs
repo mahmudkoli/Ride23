@@ -13,17 +13,19 @@ namespace Ride23.Identity.Infrastructure.GrpcServices
         {
             _userManager = userManager;
         }
+
         public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var user = new AppUser
             {
+                Name = request.Name,
                 UserName = request.UserName,
                 Email = request.Email,
                 PasswordHash = request.PasswordHash,
                 PhoneNumber = request.PhoneNumber
             };
 
-            var userId = await _userManager.CreateAsync(user, user.PasswordHash);
+            await _userManager.CreateAsync(user, user.PasswordHash);
 
             return new CreateUserResponse()
             {
