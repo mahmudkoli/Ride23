@@ -19,7 +19,7 @@ namespace Ride23.Identity.Infrastructure.GrpcServices
             var user = new AppUser
             {
                 Name = request.Name,
-                UserName = request.UserName,
+                UserName = request.Email,
                 Email = request.Email,
                 PasswordHash = request.PasswordHash,
                 PhoneNumber = request.PhoneNumber
