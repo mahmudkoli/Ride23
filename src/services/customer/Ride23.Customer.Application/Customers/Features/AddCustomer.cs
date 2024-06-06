@@ -3,6 +3,7 @@ using MapsterMapper;
 using MediatR;
 using MSFA23.Application.Common.Persistence;
 using Ride23.Customer.Application.Customers.Dtos;
+using Ride23.Customer.Domain.Customers;
 using Ride23.Framework.Core.Services;
 using Cust = Ride23.Customer.Domain.Customers;
 
@@ -48,9 +49,21 @@ public static class AddCustomer
 
         public async Task<CustomerDto> Handle(Command request, CancellationToken cancellationToken)
         {
+
+            var address = new Address(
+                    request.AddCustomerDto.Address.Street,
+                    request.AddCustomerDto.Address.City,
+                    request.AddCustomerDto.Address.PostalCode,
+                    request.AddCustomerDto.Address.Country
+                );
+
+
             var customerToAdd = Cust.Customer.Create(
                 _currentUserService.UserId(),
-                request.AddCustomerDto.Name);
+                request.AddCustomerDto.Name,
+                address,
+                request.AddCustomerDto.PhoneNumber,
+                request.AddCustomerDto.ProfilePhoto);
 
             await _repository.AddAsync(customerToAdd, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

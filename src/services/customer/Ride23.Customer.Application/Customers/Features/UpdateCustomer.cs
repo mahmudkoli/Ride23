@@ -2,6 +2,7 @@
 using MediatR;
 using Ride23.Customer.Application.Customers.Dtos;
 using Ride23.Customer.Application.Customers.Exceptions;
+using Ride23.Customer.Domain.Customers;
 
 namespace Ride23.Customer.Application.Customers.Features;
 public static class UpdateCustomer
@@ -29,12 +30,27 @@ public static class UpdateCustomer
 
         public async Task<CustomerDto> Handle(Command request, CancellationToken cancellationToken)
         {
-            var productToBeUpdated = await _repository.FindByIdAsync(request.Id, cancellationToken) ?? throw new CustomerNotFoundException(request.Id);
-            productToBeUpdated.Update(
-                request.UpdateCustomerDto.Name);
+            var customerToBeUpdated = await _repository.FindByIdAsync(request.Id, cancellationToken)
+                    ?? throw new CustomerNotFoundException(request.Id);
 
-            await _repository.UpdateAsync(productToBeUpdated, cancellationToken);
-            return _mapper.Map<CustomerDto>(productToBeUpdated);
+            var address = new Address(
+                    request.UpdateCustomerDto.Address.Street,
+                    request.UpdateCustomerDto.Address.City,
+                    request.UpdateCustomerDto.Address.PostalCode,
+                    request.UpdateCustomerDto.Address.Country
+                );
+
+
+
+            customerToBeUpdated.Update(
+                   request.UpdateCustomerDto.Name,
+                   address,
+                   request.UpdateCustomerDto.PhoneNumber,
+                   request.UpdateCustomerDto.ProfilePhoto
+               );
+
+            await _repository.UpdateAsync(customerToBeUpdated, cancellationToken);
+            return _mapper.Map<CustomerDto>(customerToBeUpdated);
         }
     }
 }

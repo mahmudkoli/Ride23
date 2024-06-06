@@ -9,5 +9,13 @@ internal class AppUserConfiguration : IEntityTypeConfiguration<Cust.Customer>
     {
         const string CustomerSchemaName = "Customer";
         builder.ToTable("Customers", CustomerSchemaName);
+
+        builder.OwnsOne(c => c.Address, a =>
+        {
+            a.Property(p => p.Street).HasColumnName("Street");
+            a.Property(p => p.City).HasColumnName("City");
+            a.Property(p => p.PostalCode).HasColumnName("PostalCode");
+            a.Property(p => p.Country).HasColumnName("Country");
+        });
     }
 }
