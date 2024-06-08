@@ -1,12 +1,20 @@
 ﻿using Ride23.Driver.Domain.Drivers.Events;
+using Ride23.Driver.Domain.Drivers.ValueObjects;
 using Ride23.Framework.Core.Domain;
 
 namespace Ride23.Driver.Domain.Drivers;
 
 public class Driver : AuditableEntity
 {
-    public string IdentityId { get; private set; }
+    public string IdentityId { get; private set; } = default!;
     public string Name { get; private set; } = default!;
+    public string PhoneNumber { get; set; } = default!;
+    public Address Address { get; init; } = default!;
+    public string LicenseNo { get; set; } = default!;
+    public DateTime LicenseExpiryDate { get; set; }
+    public int Status { get; set; } = 1;
+    public int NoOfRides { get; set; }
+    public string? ProfilePhoto { get; set; }
     public bool IsActive { get; set; } = true;
 
     public Driver Update(
@@ -18,18 +26,29 @@ public class Driver : AuditableEntity
 
     public static Driver Create(
         string identityId,
-        string name)
+        string name,
+        string phoneNumber,
+        Address address,
+        string licenseNo,
+        DateTime licenseExpiryDate,
+        int noOfRides,
+        string? profilePhoto)
     {
-        Driver customer = new()
+        Driver driver = new()
         {
             IdentityId = identityId,
-            Name = name!,
-            IsActive = true
+            Name = name,
+            PhoneNumber = phoneNumber,
+            Address = address,
+            LicenseNo = licenseNo,
+            LicenseExpiryDate = licenseExpiryDate,
+            NoOfRides = noOfRides,
+            ProfilePhoto = profilePhoto
         };
 
-        var @event = new DriverCreatedDomainEvent(customer.IdentityId, customer.Id, customer.Name);
-        customer.AddDomainEvent(@event);
+        var @event = new DriverCreatedDomainEvent(driver.IdentityId, driver.Id, driver.Name);
+        driver.AddDomainEvent(@event);
 
-        return customer;
+        return driver;
     }
 }

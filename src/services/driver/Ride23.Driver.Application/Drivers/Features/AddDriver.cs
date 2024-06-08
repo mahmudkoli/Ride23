@@ -24,7 +24,42 @@ public static class AddDriver
             RuleFor(p => p.AddDriverDto.Name)
                 .NotEmpty()
                 .MaximumLength(75)
-                .WithName("Name");
+                .WithName("Name")
+                .WithMessage("Name should be between 2 and 100 characters.");
+
+            RuleFor(p => p.AddDriverDto.PhoneNumber)
+                .NotEmpty()
+                .Length(11)
+                .Matches(@"^01\d{9}$")
+                .WithMessage("Phone number should be a valid number with 11 digits.");
+
+            RuleFor(p => p.AddDriverDto.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("Invalid email address format.");
+
+            RuleFor(p => p.AddDriverDto.Password)
+                .NotEmpty()
+                .MinimumLength(6)
+                .WithMessage("Password should be at least 6 characters long.");
+
+            RuleFor(p => p.AddDriverDto.Address)
+                .NotNull()
+                .WithMessage("Address is required.");
+
+            RuleFor(p => p.AddDriverDto.LicenseNo)
+                .NotEmpty()
+                .Length(1, 20)
+                .WithMessage("License number should be a valid string with a maximum of 20 characters.");
+
+            RuleFor(p => p.AddDriverDto.LicenseExpiryDate)
+                .NotEmpty()
+                .Must(date => date > DateTime.Now)
+                .WithMessage("License expiry date should be a future date.");
+
+            RuleFor(p => p.AddDriverDto.NoOfRides)
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Number of rides must be a non-negative integer.");
         }
     }
     public sealed class Handler : IRequestHandler<Command, DriverDto>
@@ -48,9 +83,17 @@ public static class AddDriver
 
         public async Task<DriverDto> Handle(Command request, CancellationToken cancellationToken)
         {
+            var identityId = "";
+
             var driverToAdd = Cust.Driver.Create(
-                _currentUserService.UserId(),
-                request.AddDriverDto.Name);
+                identityId,
+                request.AddDriverDto.Name,
+                request.AddDriverDto.PhoneNumber,
+                new Cust.ValueObjects.Address(request.AddDriverDto.Address.Street, request.AddDriverDto.Address.City,request.AddDriverDto.Address.PostalCode, request.AddDriverDto.Address.Country),
+                request.AddDriverDto.LicenseNo,
+                request.AddDriverDto.LicenseExpiryDate,
+                request.AddDriverDto.NoOfRides,
+                request.AddDriverDto.ProfilePhoto);
 
             await _repository.AddAsync(driverToAdd, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
