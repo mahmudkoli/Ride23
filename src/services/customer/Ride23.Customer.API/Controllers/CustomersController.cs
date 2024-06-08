@@ -17,7 +17,7 @@ public class CustomersController : BaseApiController
     }
 
     [HttpPost(Name = nameof(AddCustomerAsync))]
-    [Authorize("customer:write")]
+    //[Authorize("customer:write")]
     [ProducesResponseType(201, Type = typeof(CustomerDto))]
     public async Task<IActionResult> AddCustomerAsync(AddCustomerDto request)
     {

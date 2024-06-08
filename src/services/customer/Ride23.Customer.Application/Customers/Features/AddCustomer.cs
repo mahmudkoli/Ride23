@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
+using Grpc.Net.Client;
 using MapsterMapper;
 using MediatR;
 using MSFA23.Application.Common.Persistence;
+using Ride23.Customer.Application.Common;
 using Ride23.Customer.Application.Customers.Dtos;
 using Ride23.Customer.Domain.Customers;
 using Ride23.Framework.Core.Services;
@@ -34,22 +36,32 @@ public static class AddCustomer
         private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
 
         public Handler(
             ICustomerRepository repository,
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IUserService userService)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _currentUserService = currentUserService;
+            _userService = userService;
         }
 
         public async Task<CustomerDto> Handle(Command request, CancellationToken cancellationToken)
         {
+            var userId = await _userService.CreateUserAsync(
+               request.AddCustomerDto.Name,
+               request.AddCustomerDto.Name, 
+               request.AddCustomerDto.Email,
+               request.AddCustomerDto.Password,
+               request.AddCustomerDto.PhoneNumber);
+
 
             var address = new Address(
                     request.AddCustomerDto.Address.Street,
@@ -60,11 +72,12 @@ public static class AddCustomer
 
 
             var customerToAdd = Cust.Customer.Create(
-                _currentUserService.UserId(),
+                userId,
                 request.AddCustomerDto.Name,
                 address,
                 request.AddCustomerDto.PhoneNumber,
                 request.AddCustomerDto.ProfilePhoto);
+
 
             await _repository.AddAsync(customerToAdd, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
