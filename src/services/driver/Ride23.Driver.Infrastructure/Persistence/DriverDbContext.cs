@@ -21,7 +21,7 @@ internal class DriverDbContext : EFCoreDbContext
         //Driver Property Configurations
         modelBuilder.Entity<Domain.Drivers.Driver>(entity =>
         {
-            entity.ToTable("Drivers");
+            entity.ToTable("Drivers", "Driver");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.IdentityId).IsRequired();
             entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
