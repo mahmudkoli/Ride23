@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Ride23.Driver.Application;
+using Ride23.Driver.Application.Common;
 using Ride23.Driver.Application.Drivers;
 using Ride23.Driver.Application.Events;
 using Ride23.Driver.Infrastructure.Persistence;
 using Ride23.Driver.Infrastructure.Repositories;
+using Ride23.Driver.Infrastructure.Service;
 using Ride23.Event.Driver;
 using Ride23.Framework.Core.Events;
 using Ride23.Framework.Infrastructure;
@@ -26,7 +28,12 @@ public static class Extensions
         builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);
         builder.AddInfrastructure(applicationAssembly);
         builder.Services.AddTransient<IEventPublisher, EventPublisher>();
-
+        builder.Services
+            .AddScoped<IUserService, UserService>()
+            .AddGrpcClient<UserGrpc.User.UserClient>(o =>
+        {
+            o.Address = new Uri("https://localhost:7001");
+        });
         var config = builder.Configuration;
         var kafkaOptions = builder.Services.BindValidateReturn<KafkaOptions>(config);
 

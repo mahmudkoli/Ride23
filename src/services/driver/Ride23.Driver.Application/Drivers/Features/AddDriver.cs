@@ -2,6 +2,7 @@
 using MapsterMapper;
 using MediatR;
 using MSFA23.Application.Common.Persistence;
+using Ride23.Driver.Application.Common;
 using Ride23.Driver.Application.Drivers.Dtos;
 using Ride23.Framework.Core.Services;
 using Cust = Ride23.Driver.Domain.Drivers;
@@ -68,28 +69,32 @@ public static class AddDriver
         private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
         public Handler(
             IDriverRepository repository,
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IUserService userService
+            )
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _currentUserService = currentUserService;
+            _userService = userService;
         }
 
         public async Task<DriverDto> Handle(Command request, CancellationToken cancellationToken)
         {
-            var identityId = "";
+            var identityId = await _userService.CreateUserAsync(request.AddDriverDto.Name, request.AddDriverDto.Email, request.AddDriverDto.Email, request.AddDriverDto.Password, request.AddDriverDto.PhoneNumber);
 
             var driverToAdd = Cust.Driver.Create(
                 identityId,
                 request.AddDriverDto.Name,
                 request.AddDriverDto.PhoneNumber,
-                new Cust.ValueObjects.Address(request.AddDriverDto.Address.Street, request.AddDriverDto.Address.City,request.AddDriverDto.Address.PostalCode, request.AddDriverDto.Address.Country),
+                new Cust.ValueObjects.Address(request.AddDriverDto.Address.Street, request.AddDriverDto.Address.City, request.AddDriverDto.Address.PostalCode, request.AddDriverDto.Address.Country),
                 request.AddDriverDto.LicenseNo,
                 request.AddDriverDto.LicenseExpiryDate,
                 request.AddDriverDto.NoOfRides,
