@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ride23.Driver.Application;
 using Ride23.Driver.Application.Common;
@@ -32,7 +33,7 @@ public static class Extensions
             .AddScoped<IUserService, UserService>()
             .AddGrpcClient<UserGrpc.User.UserClient>(o =>
         {
-            o.Address = new Uri("https://localhost:7001");
+            o.Address = new Uri(builder.Configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl") ?? "");
         });
         var config = builder.Configuration;
         var kafkaOptions = builder.Services.BindValidateReturn<KafkaOptions>(config);
