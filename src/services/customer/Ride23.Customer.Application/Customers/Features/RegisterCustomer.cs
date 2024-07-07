@@ -89,7 +89,7 @@ namespace Ride23.Customer.Application.Customers.Features
                 }
                 catch (GrpcException ex)
                 {
-                    throw new CustomerRegistrationException("Identity Exception");
+                    throw new CustomerRegistrationException(ex.Message);
                 }
 
                 var address = new Address(request.RegisterCustomer.Address.Street,

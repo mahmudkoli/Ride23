@@ -33,8 +33,7 @@ namespace Ride23.Customer.Infrastructure.gRPC.Service
             }
             catch (RpcException ex)
             {
-                var errorMessage = $"Failed to create user via gRPC. Status: {ex.Status.StatusCode}, Message: {ex.Status.Detail}";
-                throw new GrpcException(errorMessage, HttpStatusCode.InternalServerError);
+                throw new GrpcException(ex.Status.Detail, HttpStatusCode.InternalServerError);
             }
         }
     }

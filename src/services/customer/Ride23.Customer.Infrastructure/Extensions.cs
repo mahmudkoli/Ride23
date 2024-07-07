@@ -28,16 +28,19 @@ public static class Extensions
         builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);
         builder.AddInfrastructure(applicationAssembly);
         builder.Services.AddTransient<IEventPublisher, EventPublisher>();
+        builder.Services.AddTransient<IUserService, UserService>();
+
+        var config = builder.Configuration;
+
+        var identityServiceOptions = builder.Services.BindValidateReturn<IdentityServiceOptions>(config);
 
         builder.Services.AddGrpcClient<UserGrpc.User.UserClient>(o =>
         {
-            o.Address = new Uri("https://localhost:7001");
+            o.Address = new Uri(identityServiceOptions.IdentityServiceUrl);
         });
 
-        builder.Services.AddTransient<IUserService, UserService>();
-
-
-        var config = builder.Configuration;
+        
+   
         var kafkaOptions = builder.Services.BindValidateReturn<KafkaOptions>(config);
 
         builder.Services.AddKafkaMessageBus();
