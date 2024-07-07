@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Ride23.Framework.Infrastructure.Controllers;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("[controller]")]
 public class BaseApiController : ControllerBase
 {

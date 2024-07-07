@@ -1,4 +1,7 @@
-﻿using Ride23.Customer.Application.Common;
+﻿using Grpc.Core;
+using Ride23.Customer.Application.Common;
+using Ride23.Customer.Application.Customers.Exceptions;
+using System.Net;
 using UserGrpc;
 
 namespace Ride23.Customer.Infrastructure.gRPC.Service
@@ -23,8 +26,16 @@ namespace Ride23.Customer.Infrastructure.gRPC.Service
                 PhoneNumber = phoneNumber
             };
 
-            var createUserResponse = await _userClient.CreateUserAsync(createUserRequest);
-            return createUserResponse.Id;
+            try
+            {
+                var createUserResponse = await _userClient.CreateUserAsync(createUserRequest);
+                return createUserResponse.Id;
+            }
+            catch (RpcException ex)
+            {
+                var errorMessage = $"Failed to create user via gRPC. Status: {ex.Status.StatusCode}, Message: {ex.Status.Detail}";
+                throw new GrpcException(errorMessage, HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

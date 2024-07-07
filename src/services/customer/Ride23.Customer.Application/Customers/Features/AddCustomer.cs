@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Grpc.Net.Client;
 using MapsterMapper;
 using MediatR;
 using MSFA23.Application.Common.Persistence;
@@ -33,7 +32,6 @@ public static class AddCustomer
     public sealed class Handler : IRequestHandler<Command, CustomerDto>
     {
         private readonly ICustomerRepository _repository;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
@@ -43,13 +41,11 @@ public static class AddCustomer
             ICustomerRepository repository,
             IMapper mapper,
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
             IUserService userService)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
             _userService = userService;
         }
 
@@ -57,7 +53,7 @@ public static class AddCustomer
         {
             var userId = await _userService.CreateUserAsync(
                request.AddCustomerDto.Name,
-               request.AddCustomerDto.Name, 
+               request.AddCustomerDto.Name,
                request.AddCustomerDto.Email,
                request.AddCustomerDto.Password,
                request.AddCustomerDto.PhoneNumber);
