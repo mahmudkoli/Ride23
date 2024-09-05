@@ -1,16 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Infrastructure\Ride23.Framework.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
-    <ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
-    <ProjectReference Include="..\Ride23.Driver.Application\Ride23.Driver.Application.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.21.5" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.49.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.49.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Infrastructure\Ride23.Framework.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
+		<ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
+		<ProjectReference Include="..\Ride23.Driver.Application\Ride23.Driver.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="..\..\identity\Ride23.Identity.Infrastructure\Protos\user.proto" GrpcServices="Client">
+			<Link>Protos\user.proto</Link>
+		</Protobuf>
+	</ItemGroup>
 
 </Project>

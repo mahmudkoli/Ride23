@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ride23.Driver.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Ride23.Driver.Infrastructure.Persistence.Migrations
+namespace Ride23.driver.Infrastructure.Persistence.migrations
 {
     [DbContext(typeof(DriverDbContext))]
-    partial class DriverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609174406_AddColumnDriversTable")]
+    partial class AddColumnDriversTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
