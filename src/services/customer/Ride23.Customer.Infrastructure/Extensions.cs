@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Ride23.Customer.Application;
+using Ride23.Customer.Application.Common;
 using Ride23.Customer.Application.Customers;
 using Ride23.Customer.Application.Events;
+using Ride23.Customer.Infrastructure.gRPC.Service;
 using Ride23.Customer.Infrastructure.Persistence;
 using Ride23.Customer.Infrastructure.Repositories;
 using Ride23.Event.Customer;
@@ -26,8 +28,19 @@ public static class Extensions
         builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);
         builder.AddInfrastructure(applicationAssembly);
         builder.Services.AddTransient<IEventPublisher, EventPublisher>();
+        builder.Services.AddTransient<IUserService, UserService>();
 
         var config = builder.Configuration;
+
+        var identityServiceOptions = builder.Services.BindValidateReturn<IdentityServiceOptions>(config);
+
+        builder.Services.AddGrpcClient<UserGrpc.User.UserClient>(o =>
+        {
+            o.Address = new Uri(identityServiceOptions.IdentityServiceUrl);
+        });
+
+        
+   
         var kafkaOptions = builder.Services.BindValidateReturn<KafkaOptions>(config);
 
         builder.Services.AddKafkaMessageBus();
@@ -47,6 +60,7 @@ public static class Extensions
 
         builder.Services.AddEFCoreDbContext<CustomerDbContext>(builder.Configuration, dbContextAssembly);
         builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+
     }
     public static void UseCustomerInfrastructure(this WebApplication app)
     {
