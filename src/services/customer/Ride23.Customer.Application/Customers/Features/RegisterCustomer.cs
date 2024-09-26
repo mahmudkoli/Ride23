@@ -6,6 +6,7 @@ using Ride23.Customer.Application.Common;
 using Ride23.Customer.Application.Customers.Dtos;
 using Ride23.Customer.Application.Customers.Exceptions;
 using Ride23.Customer.Domain.Customers;
+using Ride23.Framework.Core.Exceptions;
 using Cust = Ride23.Customer.Domain.Customers;
 
 namespace Ride23.Customer.Application.Customers.Features

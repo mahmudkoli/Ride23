@@ -4,17 +4,20 @@ using Ride23.Customer.Application;
 using Ride23.Customer.Application.Common;
 using Ride23.Customer.Application.Customers;
 using Ride23.Customer.Application.Events;
-using Ride23.Customer.Infrastructure.gRPC.Service;
+using Ride23.Customer.Infrastructure.gRPC;
 using Ride23.Customer.Infrastructure.Persistence;
 using Ride23.Customer.Infrastructure.Repositories;
 using Ride23.Event.Customer;
 using Ride23.Framework.Core.Events;
+using Ride23.Framework.Core.gRPC;
 using Ride23.Framework.Infrastructure;
 using Ride23.Framework.Infrastructure.Auth.OpenId;
 using Ride23.Framework.Infrastructure.Events;
+using Ride23.Framework.Infrastructure.gRPC;
 using Ride23.Framework.Infrastructure.Messaging;
 using Ride23.Framework.Infrastructure.Options;
 using Ride23.Framework.Persistence.EFCore;
+using Ride23.Grpc.UserGrpc;
 
 namespace Ride23.Customer.Infrastructure;
 public static class Extensions
@@ -28,18 +31,17 @@ public static class Extensions
         builder.Services.AddOpenIdAuth(builder.Configuration, policyNames);
         builder.AddInfrastructure(applicationAssembly);
         builder.Services.AddTransient<IEventPublisher, EventPublisher>();
+        builder.Services.AddTransient<IGrpcClient<User.UserClient>, GrpcClient<User.UserClient>>();
         builder.Services.AddTransient<IUserService, UserService>();
 
         var config = builder.Configuration;
 
-        var identityServiceOptions = builder.Services.BindValidateReturn<IdentityServiceOptions>(config);
+        var serviceOptions = builder.Services.BindValidateReturn<ServiceOptions>(config);
 
-        builder.Services.AddGrpcClient<UserGrpc.User.UserClient>(o =>
+        builder.Services.AddGrpcClient<User.UserClient>(o =>
         {
-            o.Address = new Uri(identityServiceOptions.IdentityServiceUrl);
+            o.Address = new Uri(serviceOptions.IdentityServiceUrl);
         });
-
-        
    
         var kafkaOptions = builder.Services.BindValidateReturn<KafkaOptions>(config);
 
@@ -60,8 +62,8 @@ public static class Extensions
 
         builder.Services.AddEFCoreDbContext<CustomerDbContext>(builder.Configuration, dbContextAssembly);
         builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
-
     }
+
     public static void UseCustomerInfrastructure(this WebApplication app)
     {
         app.UseInfrastructure(app.Environment);

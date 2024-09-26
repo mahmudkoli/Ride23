@@ -1,7 +1,6 @@
-﻿namespace Ride23.Customer.Application.Common
+﻿namespace Ride23.Customer.Application.Common;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<string> CreateUserAsync(string name, string userName, string email, string passwordHash, string phoneNumber);
-    }
+    Task<string> CreateUserAsync(string name, string userName, string email, string password, string phoneNumber);
 }
