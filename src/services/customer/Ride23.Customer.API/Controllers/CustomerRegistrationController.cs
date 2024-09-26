@@ -7,12 +7,12 @@ using Ride23.Framework.Infrastructure.Controllers;
 
 namespace Ride23.Customer.API.Controllers
 {
-
     public class CustomerRegistrationController : BaseApiController
     {
         private readonly ILogger<CustomersController> _logger;
 
-        public CustomerRegistrationController(ILogger<CustomersController> logger)
+        public CustomerRegistrationController(
+            ILogger<CustomersController> logger)
         {
             _logger = logger;
         }
