@@ -7,25 +7,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Google.Protobuf" Version="3.21.5" />
-		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.49.0" />
-		<PackageReference Include="Grpc.Tools" Version="2.49.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+	  <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
+	  <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.66.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Infrastructure\Ride23.Framework.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
 		<ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
+		<ProjectReference Include="..\..\..\events\Ride23.Grpc\Ride23.Grpc.csproj" />
 		<ProjectReference Include="..\Ride23.Driver.Application\Ride23.Driver.Application.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Protobuf Include="..\..\identity\Ride23.Identity.Infrastructure\Protos\user.proto" GrpcServices="Client">
-			<Link>Protos\user.proto</Link>
-		</Protobuf>
-	</ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="..\..\..\events\Ride23.Grpc\Identity\user.proto" GrpcServices="Client" />
+  </ItemGroup>
 
 </Project>

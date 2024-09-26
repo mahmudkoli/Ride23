@@ -5,10 +5,10 @@ using MSFA23.Application.Common.Persistence;
 using Ride23.Customer.Application.Common;
 using Ride23.Customer.Application.Customers.Dtos;
 using Ride23.Customer.Domain.Customers;
-using Ride23.Framework.Core.Services;
 using Cust = Ride23.Customer.Domain.Customers;
 
 namespace Ride23.Customer.Application.Customers.Features;
+
 public static class AddCustomer
 {
     public sealed record Command : IRequest<CustomerDto>
@@ -19,6 +19,7 @@ public static class AddCustomer
             AddCustomerDto = addCustomerDto;
         }
     }
+
     public sealed class Validator : AbstractValidator<Command>
     {
         public Validator(ICustomerRepository _repository)
@@ -29,13 +30,13 @@ public static class AddCustomer
                 .WithName("Name");
         }
     }
+
     public sealed class Handler : IRequestHandler<Command, CustomerDto>
     {
         private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-
 
         public Handler(
             ICustomerRepository repository,
@@ -60,12 +61,10 @@ public static class AddCustomer
 
 
             var address = new Address(
-                    request.AddCustomerDto.Address.Street,
-                    request.AddCustomerDto.Address.City,
-                    request.AddCustomerDto.Address.PostalCode,
-                    request.AddCustomerDto.Address.Country
-                );
-
+                request.AddCustomerDto.Address.Street,
+                request.AddCustomerDto.Address.City,
+                request.AddCustomerDto.Address.PostalCode,
+                request.AddCustomerDto.Address.Country);
 
             var customerToAdd = Cust.Customer.Create(
                 userId,
@@ -73,7 +72,6 @@ public static class AddCustomer
                 address,
                 request.AddCustomerDto.PhoneNumber,
                 request.AddCustomerDto.ProfilePhoto);
-
 
             await _repository.AddAsync(customerToAdd, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

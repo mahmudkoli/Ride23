@@ -7,37 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Protos\**" />
-	  <EmbeddedResource Remove="Protos\**" />
-	  <None Remove="Protos\**" />
+	  <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
+	  <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.66.0" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="gRPC\Protos\user.proto" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Protobuf Include="gRPC\Protos\user.proto" GrpcServices="Client" />
-	</ItemGroup>
-
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
 		<ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
+		<ProjectReference Include="..\..\..\events\Ride23.Grpc\Ride23.Grpc.csproj" />
 		<ProjectReference Include="..\Ride23.Customer.Application\Ride23.Customer.Application.csproj" />
 		<ProjectReference Include="..\Ride23.Customer.Domain\Ride23.Customer.Domain.csproj" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <PackageReference Include="Google.Protobuf" Version="3.27.1" />
-	  <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
-	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.63.0" />
-	  <PackageReference Include="Grpc.Tools" Version="2.64.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	</ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="..\..\..\events\Ride23.Grpc\Identity\user.proto" GrpcServices="Client" />
+  </ItemGroup>
 
 </Project>
