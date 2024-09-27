@@ -30,13 +30,13 @@ public static class Extensions
 
         builder.Services.AddKafkaMessageBus();
 
-        builder.Services.AddKafkaProducer<LocationCreatedIntegrationEvent>(p =>
+        builder.Services.AddKafkaProducer<DriverLocationCreatedIntegrationEvent>(p =>
         {
             p.Topic = "locations";
             p.BootstrapServers = kafkaOptions.BootstrapServers;
         });
 
-        builder.Services.AddKafkaConsumer<LocationCreatedIntegrationEvent, LocationCreatedIntegrationEventHandler>(p =>
+        builder.Services.AddKafkaConsumer<DriverLocationCreatedIntegrationEvent, DriverLocationCreatedIntegrationEventHandler>(p =>
         {
             p.Topic = "locations";
             p.GroupId = "locations_group";
@@ -58,7 +58,7 @@ public static class Extensions
         });
 
         builder.Services.AddCassandraDbContext<LocationDbContext>(builder.Configuration);
-        builder.Services.AddTransient<ILocationRepository, LocationRepository>();
+        builder.Services.AddTransient<IDriverLocationRepository, DriverLocationRepository>();
         builder.Services.AddScoped<ILocationService, LocationService>();
     }
     public static void UseLocationInfrastructure(this WebApplication app)

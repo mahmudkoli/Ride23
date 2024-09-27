@@ -5,6 +5,8 @@ public class LocationDetailsDto
     public Guid Id { get; set; }
     public long Latitude { get; set; }
     public long Longitude { get; set; }
+    public string CellIndex { get; set; } = default!;
+    public DateTime Timestamp { get; set; }
     public DateTime CreatedOn { get; set; }
-    public DateTime? LastModifiedOn { get; set; } = null;
+    public string? CreatedBy { get; set; } = null;
 }
