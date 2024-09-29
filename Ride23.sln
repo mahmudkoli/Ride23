@@ -67,8 +67,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "location", "location", "{48
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Location.API", "src\services\location\Ride23.Location.API\Ride23.Location.API.csproj", "{D88AF9A8-B2E2-40CD-A4FB-6EFB6551D338}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{8A68EDF0-7292-4D18-B7D5-4586CF63BD99}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Event", "src\shared\Ride23.Event\Ride23.Event.csproj", "{A6084D44-36FF-40B4-8B75-BFBBFBC5EFDF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ride23.Grpc", "src\shared\Ride23.Grpc\Ride23.Grpc.csproj", "{4072E51B-EA49-420C-98E7-93E0CFDEB026}"
