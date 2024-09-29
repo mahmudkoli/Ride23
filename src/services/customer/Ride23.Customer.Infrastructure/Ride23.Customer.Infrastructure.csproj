@@ -14,14 +14,14 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
 		<ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
-		<ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
-		<ProjectReference Include="..\..\..\events\Ride23.Grpc\Ride23.Grpc.csproj" />
+		<ProjectReference Include="..\..\..\shared\Ride23.Event\Ride23.Event.csproj" />
+		<ProjectReference Include="..\..\..\shared\Ride23.Grpc\Ride23.Grpc.csproj" />
 		<ProjectReference Include="..\Ride23.Customer.Application\Ride23.Customer.Application.csproj" />
 		<ProjectReference Include="..\Ride23.Customer.Domain\Ride23.Customer.Domain.csproj" />
 	</ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\..\events\Ride23.Grpc\Identity\user.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\shared\Ride23.Grpc\Identity\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>
