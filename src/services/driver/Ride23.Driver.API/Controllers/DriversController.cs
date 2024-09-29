@@ -1,9 +1,9 @@
-﻿using Ride23.Driver.Application.Drivers.Dtos;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Ride23.Driver.Application.Drivers.Dtos;
 using Ride23.Driver.Application.Drivers.Features;
 using Ride23.Framework.Core.Pagination;
 using Ride23.Framework.Infrastructure.Controllers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Ride23.Driver.Api.Controllers;
 
@@ -19,7 +19,7 @@ public class DriversController : BaseApiController
     [HttpPost(Name = nameof(AddDriverAsync))]
     [Authorize("driver:write")]
     [ProducesResponseType(201, Type = typeof(DriverDto))]
-    public async Task<IActionResult> AddDriverAsync(AddDriverDto request)
+    public async Task<IActionResult> AddDriverAsync([FromBody] AddDriverDto request)
     {
         var command = new AddDriver.Command(request);
         var commandResponse = await Mediator.Send(command);

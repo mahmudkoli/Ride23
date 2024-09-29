@@ -12,6 +12,12 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AppUser>()
+            .Property(x => x.Name)
+            .IsRequired()
+            .HasMaxLength(150);
+
+
         modelBuilder.HasDefaultSchema(IdentitySchemaName);
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

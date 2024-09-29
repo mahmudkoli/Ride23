@@ -5,10 +5,10 @@ using Ride23.Location.API.Dtos;
 using Loc = Ride23.Location.API.Entities;
 
 namespace Ride23.Location.API.Repositories;
-public class LocationRepository : CassandraRepository<Loc.Location, Guid>, ILocationRepository
+public class DriverLocationRepository : CassandraRepository<Loc.DriverLocation, Guid>, IDriverLocationRepository
 {
     private readonly ICassandraDbContext _dbContext;
-    public LocationRepository(ICassandraDbContext context, IDateTimeService dateTimeService)
+    public DriverLocationRepository(ICassandraDbContext context, IDateTimeService dateTimeService)
         : base(context, dateTimeService)
     {
         _dbContext = context;

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
-    <ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
+    <ProjectReference Include="..\..\..\shared\Ride23.Event\Ride23.Event.csproj" />
     <ProjectReference Include="..\Ride23.Driver.Domain\Ride23.Driver.Domain.csproj" />
   </ItemGroup>
 

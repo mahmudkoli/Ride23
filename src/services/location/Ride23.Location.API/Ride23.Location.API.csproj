@@ -7,10 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="pocketken.H3" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Infrastructure\Ride23.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.NoSQL\Ride23.Framework.Persistence.NoSQL.csproj" />
-    <ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
+    <ProjectReference Include="..\..\..\shared\Ride23.Event\Ride23.Event.csproj" />
   </ItemGroup>
 
   <ItemGroup>

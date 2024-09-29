@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "Ride23.Grpc.UserGrpc";
+
+package user;
+
+service User{
+
+	//Create
+	rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+}
+
+message CreateUserRequest{
+	string name = 1;
+	string userName = 2;
+	string email = 3; 
+	string password = 4;
+	string phoneNumber = 5;
+}
+
+message CreateUserResponse {
+    string id = 1;
+}

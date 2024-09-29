@@ -5,6 +5,7 @@ using Ride23.Framework.Infrastructure;
 using Ride23.Framework.Infrastructure.Auth.OpenIddict;
 using Ride23.Identity.Application;
 using Ride23.Identity.Domain.Users;
+using Ride23.Identity.Infrastructure.gRPC;
 using Ride23.Identity.Infrastructure.Persistence;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -16,7 +17,7 @@ public static class Extensions
     {
         var coreAssembly = typeof(IdentityCore).Assembly;
         var dbContextAssembly = typeof(AppDbContext).Assembly;
-
+        builder.Services.AddGrpc();
         builder.Services.AddIdentityExtensions();
         builder.AddInfrastructure(applicationAssembly: coreAssembly, enableSwagger: enableSwagger);
         builder.ConfigureAuthServer<AppDbContext>(dbContextAssembly);
@@ -25,8 +26,10 @@ public static class Extensions
 
     public static void UseIdentityInfrastructure(this WebApplication app)
     {
+        app.MapGrpcService<UserService>();
         app.UseInfrastructure(app.Environment, enableSwagger);
     }
+
     internal static IServiceCollection AddIdentityExtensions(this IServiceCollection services)
     {
         services
