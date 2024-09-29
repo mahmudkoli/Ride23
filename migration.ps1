@@ -22,7 +22,7 @@ if (-not $args -or $args.length -lt 2) {
                     dotnet ef migrations add `
                         -s $api_project_path `
                         -p $infra_project_path `
-                        -o Persistence/migrations `
+                        -o Persistence/Migrations `
                         $migration_name 
 
                     Write-Host "Migration '$migration_name' created successfully for '$project_name' project."

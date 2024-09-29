@@ -11,6 +11,11 @@
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="NewId" Version="4.0.1" />
+    <PackageReference Include="Rebus" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sagas\" />
   </ItemGroup>
 
 </Project>
