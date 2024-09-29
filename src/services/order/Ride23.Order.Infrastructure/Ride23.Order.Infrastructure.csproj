@@ -9,8 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Core\Ride23.Framework.Core.csproj" />
     <ProjectReference Include="..\..\..\..\framework\Ride23.Framework.Persistence.EFCore\Ride23.Framework.Persistence.EFCore.csproj" />
-    <ProjectReference Include="..\..\..\events\Ride23.Event\Ride23.Event.csproj" />
-    <ProjectReference Include="..\..\..\sagas\Ride23.Saga\Ride23.Saga.csproj" />
+    <ProjectReference Include="..\..\..\shared\Ride23.Event\Ride23.Event.csproj" />
+    <ProjectReference Include="..\..\..\shared\Ride23.Saga\Ride23.Saga.csproj" />
     <ProjectReference Include="..\Ride23.Order.Application\Ride23.Order.Application.csproj" />
     <ProjectReference Include="..\Ride23.Order.Domain\Ride23.Order.Domain.csproj" />
   </ItemGroup>
